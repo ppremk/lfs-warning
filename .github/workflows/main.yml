@@ -1,0 +1,20 @@
+on:
+  pull_request:
+    types: [opened, edited]
+  issue_comment:
+    types: [created, edited]
+
+name: LFS warning 
+
+jobs:
+  lfs-warning:
+    name: LFS Warning
+    runs-on: ubuntu-latest
+    steps:
+      - name: LFS Warning
+        id: lfs_warn
+        uses: ./
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          filesizelimit: 1000
