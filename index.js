@@ -1,18 +1,17 @@
 const core = require('@actions/core');
-const wait = require('./wait');
 
 
 // most @actions toolkit packages have async methods
 async function run() {
   try { 
-    const ms = core.getInput('milliseconds');
-    console.log(`Waiting ${ms} milliseconds ...`)
+    const fsl = core.getInput('filesizelimit');
+    console.log(`Default configured filesizelimit is set to ${fsl} bytes...`)
 
-    core.debug((new Date()).toTimeString())
-    await wait(parseInt(ms));
-    core.debug((new Date()).toTimeString())
+    core.setOutput('action start time', new Date().toTimeString());
 
-    core.setOutput('time', new Date().toTimeString());
+    // do logic in here
+
+    core.setOutput('action end time', new Date().toTimeString());
   } 
   catch (error) {
     core.setFailed(error.message);

@@ -1,13 +1,13 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: 'LFS-warning'
+description: 'Checks file sizes in a Pull Request and warns of large files'
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  filesizelimit:  # id of input
+    description: 'file size threshold'
     required: true
     default: '1000'
 outputs:
   time: # output will be available to future steps 
-    description: 'The message to output'
+    description: 'Possible large file(s) detected. Consider using Git-LFS in your repository commits'
 runs:
   using: 'node12'
   main: 'dist/index.js'
