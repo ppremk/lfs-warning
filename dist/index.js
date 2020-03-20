@@ -502,6 +502,15 @@ let issue_pr_number
 // most @actions toolkit packages have async methods
 async function run() {
   try {
+
+    const { data: pullRequest } = await octokit.pulls.listFiles({
+      owner: {owner},
+      repo: {repo},
+      pull_number: prNo
+    })
+
+    console.log(pullRequest)``
+
     const fsl = core.getInput("filesizelimit")
 
     console.log(`Default configured filesizelimit is set to ${fsl} bytes...`)
@@ -514,12 +523,10 @@ async function run() {
       const prFiles = getFiles(issue_pr_number)
       console.log(`The PR number is: ${issue_pr_number}`)
 
-      Object.keys(prFiles).forEach(function(item){
-        console.log(item)
-        console.log(prFiles[item])
-      })
-
-
+      // Object.keys(prFiles).forEach(function(item) {
+      //   console.log(item)
+      //   console.log(prFiles[item])
+      // })
     } else {
       console.log(`No Pull Request detected. Skipping LFS warning check`)
     }
@@ -536,47 +543,42 @@ async function run() {
     //   body:
     //     "Max file sizelimit detected, consider using Git-LFS before merging this file in your target branch"
     // })
-
-
   } catch (error) {
     core.setFailed(error.message)
   }
 
-  async function getFiles(prNo){
-    return await octokit.pulls.listFiles({
-      owner,
-      repo,
-      pull_number: prNo
-    })
+  // async function getFiles(prNo) {
+  //   return await octokit.pulls.listFiles({
+  //     owner,
+  //     repo,
+  //     pull_number: prNo
+  //   })
+  // }
+
+  // function getFilesDetails(){
+  //   let pr_files_details
+  //   pr_files.array.forEach(element => {
+  //     pr_files_details = {
+  //       file_name: element.filename,
+  //       file_git_sha: element.sha
+  //     }
+  //   })
+  //    console.log(pr_files_details)
+  // }
+
+  // function getFileBlob(){
+  //     // Check Blob of file
+  //     let pr_files_blob_size
+  //     pr_files_details.array.forEach( element => {
+  //       pr_files_blob_size = octokit.git.getBlob({
+  //         owner,
+  //         repo,
+  //         file_sha : element.file_git_sha
+  //       });
+  //     })
+  //     console.log(pr_files_blob_size)
+  // }
 }
-
-// function getFilesDetails(){
-//   let pr_files_details
-//   pr_files.array.forEach(element => {
-//     pr_files_details = {
-//       file_name: element.filename,
-//       file_git_sha: element.sha
-//     }
-//   })
-//    console.log(pr_files_details)
-// }
-
-// function getFileBlob(){
-//     // Check Blob of file
-//     let pr_files_blob_size
-//     pr_files_details.array.forEach( element => {
-//       pr_files_blob_size = octokit.git.getBlob({
-//         owner,
-//         repo,
-//         file_sha : element.file_git_sha
-//       });
-//     })
-//     console.log(pr_files_blob_size)
-// }
-
-}
-
-
 
 run()
 
