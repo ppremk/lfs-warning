@@ -13,11 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    #   - name: Get Repo Code
-    #     id: get_repo_code
-    #     uses: actions/checkout@v1
-    #     env:
-    #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      - name: Get Repo Code
+        id: get_repo_code
+        uses: actions/checkout@v1
 
       - name: LFS Warning
         id: lfs_warn
