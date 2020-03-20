@@ -25,8 +25,8 @@ async function run() {
       console.log(`The PR number is: ${issue_pr_number}`)
 
       Object.keys(prFiles).forEach(function(item){
-        console.log(`key: ${item}`)
-        console.log(`value: ${prFiles[item]}`)
+        console.log(item)
+        console.log(prFiles[item])
       })
 
 
