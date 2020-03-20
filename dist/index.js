@@ -512,7 +512,7 @@ async function run() {
       issue_pr_number = context.payload.pull_request.number
 
       const prFiles = getFiles(issue_pr_number)
-      console.log(prFiles)
+      console.log(`The PR files are: ${prFiles}`)
 
     } else {
       console.log(`No Pull Request detected. Skipping LFS warning check`)
@@ -536,8 +536,8 @@ async function run() {
     core.setFailed(error.message)
   }
 
-  function getFiles(prNo){
-    return octokit.pulls.listFiles({
+  async function getFiles(prNo){
+    return await octokit.pulls.listFiles({
       owner,
       repo,
       pull_number: prNo
