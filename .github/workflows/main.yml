@@ -1,16 +1,24 @@
+name: LFS-warning
+
 on:
   pull_request:
     types: [opened, edited]
   issue_comment:
     types: [created, edited]
 
-name: LFS warning 
-
 jobs:
   lfs-warning:
+
     name: LFS Warning
     runs-on: ubuntu-latest
+
     steps:
+      - name: Get Repo Code
+        id: get_repo_code
+        uses: actions/checkout@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+
       - name: LFS Warning
         id: lfs_warn
         uses: ./
