@@ -502,7 +502,6 @@ let issue_pr_number
 // most @actions toolkit packages have async methods
 async function run() {
   try {
-
     const fsl = core.getInput("filesizelimit")
 
     console.log(`Default configured filesizelimit is set to ${fsl} bytes...`)
@@ -512,7 +511,6 @@ async function run() {
     if (event_type === "pull_request") {
       issue_pr_number = context.payload.pull_request.number
 
-      // const prFiles = getFiles(issue_pr_number)
       console.log(`The PR number is: ${issue_pr_number}`)
 
       const { data: pullRequest } = await octokit.pulls.listFiles({
@@ -520,12 +518,28 @@ async function run() {
         repo,
         pull_number: issue_pr_number
       })
-      console.log(pullRequest)
+      // console.log(pullRequest)
 
-      // Object.keys(prFiles).forEach(function(item) {
-      //   console.log(item)
-      //   console.log(prFiles[item])
+      pullRequest.forEach(async function(item) {
+        prFilesBlobs = await octokit.git.getBlob({
+          owner,
+          repo,
+          file_sha: item.sha
+        })
+        console.log(prFilesBlobs)
+      })
+
+
+
+      // let myPRFiles = pullRequest.map(function(item) {
+      //   let myPRFilesObj = {
+      //     sha: item.sha,
+      //     filename: item.filename
+      //   }
+      //   return myPRFilesObj
       // })
+
+
     } else {
       console.log(`No Pull Request detected. Skipping LFS warning check`)
     }
@@ -546,14 +560,6 @@ async function run() {
     core.setFailed(error.message)
   }
 
-  // async function getFiles(prNo) {
-  //   return await octokit.pulls.listFiles({
-  //     owner,
-  //     repo,
-  //     pull_number: prNo
-  //   })
-  // }
-
   // function getFilesDetails(){
   //   let pr_files_details
   //   pr_files.array.forEach(element => {
@@ -563,6 +569,18 @@ async function run() {
   //     }
   //   })
   //    console.log(pr_files_details)
+  // }
+
+  // function getFileBlob(pullRequestObj){
+  //   pullRequestObj.forEach(function(item) {
+  //     const { data: prFilesBlobs } = await octokit.git.getBlob({
+  //       owner,
+  //       repo,
+  //       file_sha: item.sha
+  //     })
+  //     return prFilesBlobs
+  //   })
+
   // }
 
   // function getFileBlob(){
