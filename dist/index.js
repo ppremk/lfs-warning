@@ -518,7 +518,7 @@ async function run() {
       const { data: pullRequest } = await octokit.pulls.listFiles({
         owner: {owner},
         repo: {repo},
-        pull_number: {issue_pr_number}
+        pull_number: issue_pr_number
       })
       console.log(pullRequest)
 
