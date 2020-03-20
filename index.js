@@ -41,7 +41,7 @@ async function run() {
       repo,
       issue_pr_number
     })
-    console.log(pr_files)
+    core.setOutput("pr_files:", pr_files)
 
     let pr_files_details
     pr_files.array.forEach(element => {
@@ -50,7 +50,7 @@ async function run() {
         file_git_sha: element.sha
       }
     })
-    console.log(pr_files_details)
+    core.setOutput("pr_files:", pr_files_details)
 
 
     // Check Blob of file
@@ -62,9 +62,7 @@ async function run() {
         file_sha : element.file_git_sha
       });
     })
-    console.log(pr_files_blob_size)
-
-    
+    core.setOutput("pr_files:", pr_files_blob_size)
 
 
     // Compare size of Blob with filesizelimit threshold
