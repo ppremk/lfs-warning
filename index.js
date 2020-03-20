@@ -39,7 +39,7 @@ async function run() {
     pr_files = octokit.pulls.listFiles({
       owner,
       repo,
-      issue_pr_number
+      pull_number: issue_pr_number
     })
     core.setOutput("pr_files:", pr_files)
 
