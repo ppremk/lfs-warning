@@ -36,7 +36,7 @@ async function run() {
 
     //Get List of Files in PR
     let pr_files
-    pr_files = await octokit.pulls.listFiles({
+    pr_files = octokit.pulls.listFiles({
       owner,
       repo,
       issue_pr_number
@@ -56,7 +56,7 @@ async function run() {
     // Check Blob of file
     let pr_files_blob_size
     pr_files_details.array.forEach( element => {
-      pr_files_blob_size = await octokit.git.getBlob({
+      pr_files_blob_size = octokit.git.getBlob({
         owner,
         repo,
         file_sha : element.file_git_sha
@@ -70,7 +70,7 @@ async function run() {
     // TODO
 
     // Create a Issue Comment if size is overlimit
-    await octokit.github.issues.createComment({
+    octokit.github.issues.createComment({
       owner,
       repo,
       issue_number: issue_pr_number,
