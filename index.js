@@ -22,7 +22,11 @@ async function run() {
       issue_pr_number = context.payload.pull_request.number
 
       const prFiles = getFiles(issue_pr_number)
-      console.log(`The PR files are: ${prFiles}`)
+      console.log(`The PR number is: ${issue_pr_number}`)
+
+      let prFile = prFiles.map(function(file){
+        console.log(`The PR files are: ${file}`)
+      })
 
     } else {
       console.log(`No Pull Request detected. Skipping LFS warning check`)
