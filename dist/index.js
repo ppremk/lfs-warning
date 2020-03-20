@@ -491,21 +491,22 @@ module.exports = require("os");
 const core = __webpack_require__(470)
 const github = __webpack_require__(469)
 
+const octokit = new github.GitHub(process.env.GITHUB_TOKEN)
+const context = github.context
+
+const { owner, repo } = context.repo
+const event_type = context.eventName
+
+let issue_pr_number
+
 // most @actions toolkit packages have async methods
 async function run() {
   try {
-
-    const octokit = new github.GitHub(process.env.GITHUB_TOKEN)
-    const context = github.context
-    const { owner, repo } = context.repo
-    const event_type = context.eventName
     const fsl = core.getInput("filesizelimit")
 
     console.log(`Default configured filesizelimit is set to ${fsl} bytes...`)
     console.log(`Name of Repository is ${repo} and the owner is ${owner}`)
     console.log(`Triggered event is ${event_type}`)
-
-    let issue_pr_number
 
     if (event_type === "pull_request") {
       issue_pr_number = context.payload.pull_request.number
@@ -516,11 +517,6 @@ async function run() {
     } else {
       console.log(`No Pull Request detected. Skipping LFS warning check`)
     }
-
-
-
-
-
 
     // Compare size of Blob with filesizelimit threshold
 
