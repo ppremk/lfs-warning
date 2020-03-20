@@ -503,14 +503,6 @@ let issue_pr_number
 async function run() {
   try {
 
-    const { data: pullRequest } = await octokit.pulls.listFiles({
-      owner: {owner},
-      repo: {repo},
-      pull_number: prNo
-    })
-
-    console.log(pullRequest)``
-
     const fsl = core.getInput("filesizelimit")
 
     console.log(`Default configured filesizelimit is set to ${fsl} bytes...`)
@@ -520,8 +512,15 @@ async function run() {
     if (event_type === "pull_request") {
       issue_pr_number = context.payload.pull_request.number
 
-      const prFiles = getFiles(issue_pr_number)
+      // const prFiles = getFiles(issue_pr_number)
       console.log(`The PR number is: ${issue_pr_number}`)
+
+      const { data: pullRequest } = await octokit.pulls.listFiles({
+        owner: {owner},
+        repo: {repo},
+        pull_number: {issue_pr_number}
+      })
+      console.log(pullRequest)
 
       // Object.keys(prFiles).forEach(function(item) {
       //   console.log(item)
