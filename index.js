@@ -24,9 +24,11 @@ async function run() {
       const prFiles = getFiles(issue_pr_number)
       console.log(`The PR number is: ${issue_pr_number}`)
 
-      let prFile = prFiles.map(function(file){
-        console.log(`The PR files are: ${file}`)
+      Object.keys(prFiles).forEach(function(item){
+        console.log(`key: ${item}`)
+        console.log(`value: ${prFiles[item]}`)
       })
+
 
     } else {
       console.log(`No Pull Request detected. Skipping LFS warning check`)
