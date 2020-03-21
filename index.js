@@ -8,12 +8,12 @@ const { owner, repo } = context.repo
 const event_type = context.eventName
 
 let issue_pr_number
-const prFileNamewithBlob = []
 
 // most @actions toolkit packages have async methods
 async function run() {
   try {
     const fsl = core.getInput("filesizelimit")
+    const prFileNamewithBlob = [{}]
 
     console.log(`Default configured filesizelimit is set to ${fsl} bytes...`)
     console.log(`Name of Repository is ${repo} and the owner is ${owner}`)
@@ -46,10 +46,9 @@ async function run() {
           fileblobsize: prFilesBlobs.size
         })
 
-        console.log(prFileNamewithBlob)
-
       })
 
+      console.log(prFileNamewithBlob)
 
     } else {
       console.log(`No Pull Request detected. Skipping LFS warning check`)
