@@ -50,10 +50,9 @@ async function run() {
             })
           }
         }
-        
+        console.log(prFileNamewithBlob)
       })
 
-      console.log(prFileNamewithBlob)
 
     } else {
       console.log(`No Pull Request detected. Skipping LFS warning check`)
