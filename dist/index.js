@@ -527,17 +527,17 @@ async function run() {
           repo,
           file_sha: item.sha
         })
-        // console.log(prFilesBlobs)
+        console.log(prFilesBlobs)
 
-        for (let prFilesBlob in prFilesBlobs){
-          prFileNamewithBlob.push({
-            "filename": item.filename,
-            "filesha": item.sha,
-            prFilesBlob : prFilesBlobs[prFilesBlob]
-          })
-        }
+        // for (let prFilesBlob in prFilesBlobs){
+        //   prFileNamewithBlob.push({
+        //     "filename": item.filename,
+        //     "filesha": item.sha,
+        //     prFilesBlob : prFilesBlobs[prFilesBlob] 
+        //   })
+        // }
 
-        console.log(prFileNamewithBlob)
+        // console.log(prFileNamewithBlob)
 
       })
 
