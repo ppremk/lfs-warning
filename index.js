@@ -37,19 +37,22 @@ async function run() {
           repo,
           file_sha: item.sha
         })
-        console.log(prFilesBlobs)
+        // console.log(prFilesBlobs)
 
-        // for (let prFilesBlob in prFilesBlobs){
-        //   prFileNamewithBlob.push({
-        //     "filename": item.filename,
-        //     "filesha": item.sha,
-        //     prFilesBlob : prFilesBlobs[prFilesBlob] 
-        //   })
-        // }
+        // TODO - Use Object.etries for prFilesBlobs then iterate via  proper loop
 
-        // console.log(prFileNamewithBlob)
-
+        for (let prFilesBlob in prFilesBlobs){
+          if (prFilesBlob === item.sha){
+            prFileNamewithBlob.push({
+              "filename": item.filename,
+              "filesha": item.sha,
+              "fileblobsize" : prFilesBlobs[prFilesBlob] 
+            })
+          }
+        }
       })
+
+      console.log(prFileNamewithBlob)
 
 
     } else {
