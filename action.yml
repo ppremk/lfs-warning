@@ -1,10 +1,10 @@
 name: 'LFS-warning'
 description: 'Checks file sizes in a Pull Request and warns of large files'
 inputs:
-  filesizelimit:  # id of input
+  filesizelimit:  # id of input 
     description: 'file size threshold'
     required: true
-    default: '1000'
+    default: '10485760' # 10 MB is 10485760 Bytes
 outputs:
   time: # output will be available to future steps 
     description: 'Possible large file(s) detected. Consider using Git-LFS in your repository commits'

@@ -518,10 +518,9 @@ async function run() {
         repo,
         pull_number: issue_pr_number
       })
-      // console.log(pullRequest)
 
       pullRequest.forEach(async function(item) {
-        prFilesBlobs = await octokit.git.getBlob({
+        const { data: prFilesBlobs } = await octokit.git.getBlob({
           owner,
           repo,
           file_sha: item.sha
@@ -529,15 +528,6 @@ async function run() {
         console.log(prFilesBlobs)
       })
 
-
-
-      // let myPRFiles = pullRequest.map(function(item) {
-      //   let myPRFilesObj = {
-      //     sha: item.sha,
-      //     filename: item.filename
-      //   }
-      //   return myPRFilesObj
-      // })
 
 
     } else {
@@ -571,17 +561,7 @@ async function run() {
   //    console.log(pr_files_details)
   // }
 
-  // function getFileBlob(pullRequestObj){
-  //   pullRequestObj.forEach(function(item) {
-  //     const { data: prFilesBlobs } = await octokit.git.getBlob({
-  //       owner,
-  //       repo,
-  //       file_sha: item.sha
-  //     })
-  //     return prFilesBlobs
-  //   })
 
-  // }
 
   // function getFileBlob(){
   //     // Check Blob of file
