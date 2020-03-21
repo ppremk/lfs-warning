@@ -30,9 +30,8 @@ async function run() {
       })
 
       // console.log(pullRequest) // returns an array of objects
-      
 
-      pullRequest.forEach(async function(item) {
+      let prFileNamewithBlobFinal = pullRequest.forEach(async function(item) {
         let prFileNamewithBlob = [{}]
         const { data: prFilesBlobs } = await octokit.git.getBlob({
           owner,
@@ -46,11 +45,10 @@ async function run() {
           filesha: item.sha,
           fileblobsize: prFilesBlobs.size
         })
-
       })
 
-      console.log(prFileNamewithBlob)
-
+      console.log(prFileNamewithBlobFinal)
+      
     } else {
       console.log(`No Pull Request detected. Skipping LFS warning check`)
     }
@@ -70,7 +68,6 @@ async function run() {
   } catch (error) {
     core.setFailed(error.message)
   }
-
 }
 
 run()
