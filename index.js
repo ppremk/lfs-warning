@@ -37,7 +37,7 @@ async function run() {
           repo,
           file_sha: item.sha
         })
-        console.log(prFilesBlobs)
+        // console.log(prFilesBlobs)
 
         for (let prFilesBlob in prFilesBlobs){
           prFileNamewithBlob.push({
@@ -46,10 +46,11 @@ async function run() {
             prFilesBlob : prFilesBlobs[prFilesBlob]
           })
         }
-        
+
+        console.log(prFileNamewithBlob)
+
       })
 
-      console.log(prFileNamewithBlob)
 
     } else {
       console.log(`No Pull Request detected. Skipping LFS warning check`)
