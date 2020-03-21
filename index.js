@@ -13,7 +13,6 @@ let issue_pr_number
 async function run() {
   try {
     const fsl = core.getInput("filesizelimit")
-    const prFileNamewithBlob = [{}]
 
     console.log(`Default configured filesizelimit is set to ${fsl} bytes...`)
     console.log(`Name of Repository is ${repo} and the owner is ${owner}`)
@@ -31,6 +30,8 @@ async function run() {
       })
 
       // console.log(pullRequest) // returns an array of objects
+      
+      var prFileNamewithBlob = [{}]
 
       pullRequest.forEach(async function(item) {
         const { data: prFilesBlobs } = await octokit.git.getBlob({
