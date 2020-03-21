@@ -498,7 +498,6 @@ const { owner, repo } = context.repo
 const event_type = context.eventName
 
 let issue_pr_number
-let prFileNamewithBlob = [{}]
 
 // most @actions toolkit packages have async methods
 async function run() {
@@ -524,6 +523,7 @@ async function run() {
       
 
       pullRequest.forEach(async function(item) {
+        let prFileNamewithBlob = [{}]
         const { data: prFilesBlobs } = await octokit.git.getBlob({
           owner,
           repo,
@@ -531,13 +531,7 @@ async function run() {
         })
         // console.log(prFilesBlobs) // returns an object
 
-        // prFileNamewithBlob.push({
-        //   filename: item.filename,
-        //   filesha: item.sha,
-        //   fileblobsize: prFilesBlobs.size
-        // })
-
-        await getFilesBlobsArray({
+        return prFileNamewithBlob.push({
           filename: item.filename,
           filesha: item.sha,
           fileblobsize: prFilesBlobs.size
@@ -565,13 +559,6 @@ async function run() {
     // })
   } catch (error) {
     core.setFailed(error.message)
-  }
-
-  async function getFilesBlobsArray(objt){
-
-    prFileNamewithBlob.push(objt)
-
-    return prFileNamewithBlob
   }
 
 }
