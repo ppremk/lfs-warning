@@ -8,7 +8,7 @@ const { owner, repo } = context.repo
 const event_type = context.eventName
 
 let issue_pr_number
-let prFileNamewithBlob
+const prFileNamewithBlob = []
 
 // most @actions toolkit packages have async methods
 async function run() {
@@ -68,7 +68,7 @@ async function run() {
   } catch (error) {
     core.setFailed(error.message)
   }
-  
+
 }
 
 run()
