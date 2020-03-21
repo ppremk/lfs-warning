@@ -519,6 +519,8 @@ async function run() {
         pull_number: issue_pr_number
       })
 
+      console.log(pullRequest)
+
       const prFileNamewithBlob=[]
 
       pullRequest.forEach(async function(item) {
@@ -527,20 +529,20 @@ async function run() {
           repo,
           file_sha: item.sha
         })
-        // console.log(prFilesBlobs)
+        console.log(prFilesBlobs)
 
         // TODO - Use Object.etries for prFilesBlobs then iterate via  proper loop
 
-        for (let prFilesBlob in prFilesBlobs){
-          if (prFilesBlob === item.sha){
-            prFileNamewithBlob.push({
-              "filename": item.filename,
-              "filesha": item.sha,
-              "fileblobsize" : prFilesBlobs[prFilesBlob] 
-            })
-          }
-          console.log(prFileNamewithBlob)
-        }
+        // for (let prFilesBlob in prFilesBlobs){
+        //   if (prFilesBlob === item.sha){
+        //     prFileNamewithBlob.push({
+        //       "filename": item.filename,
+        //       "filesha": item.sha,
+        //       "fileblobsize" : prFilesBlobs[prFilesBlob] 
+        //     })
+        //   }
+        //   console.log(prFileNamewithBlob)
+        // }
       })
 
 
