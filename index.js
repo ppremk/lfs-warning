@@ -49,8 +49,8 @@ async function run() {
               "fileblobsize" : prFilesBlobs[prFilesBlob] 
             })
           }
+          console.log(prFileNamewithBlob)
         }
-        console.log(prFileNamewithBlob)
       })
 
 
