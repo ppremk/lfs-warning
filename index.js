@@ -8,6 +8,7 @@ const { owner, repo } = context.repo
 const event_type = context.eventName
 
 let issue_pr_number
+let prFileNamewithBlob = []
 
 // most @actions toolkit packages have async methods
 async function run() {
@@ -29,9 +30,7 @@ async function run() {
         pull_number: issue_pr_number
       })
 
-      console.log(pullRequest)
-
-      const prFileNamewithBlob=[]
+      // console.log(pullRequest) // returns an array of objects
 
       pullRequest.forEach(async function(item) {
         const { data: prFilesBlobs } = await octokit.git.getBlob({
@@ -39,22 +38,16 @@ async function run() {
           repo,
           file_sha: item.sha
         })
-        console.log(prFilesBlobs)
+        // console.log(prFilesBlobs) // returns an object
 
-        // TODO - Use Object.etries for prFilesBlobs then iterate via  proper loop
-
-        // for (let prFilesBlob in prFilesBlobs){
-        //   if (prFilesBlob === item.sha){
-        //     prFileNamewithBlob.push({
-        //       "filename": item.filename,
-        //       "filesha": item.sha,
-        //       "fileblobsize" : prFilesBlobs[prFilesBlob] 
-        //     })
-        //   }
-        //   console.log(prFileNamewithBlob)
-        // }
+        prFileNamewithBlob.push({
+          filename: item.filename,
+          filesha: item.sha,
+          fileblobsize: prFilesBlobs.size
+        })
       })
 
+      console.log(prFileNamewithBlob)
 
     } else {
       console.log(`No Pull Request detected. Skipping LFS warning check`)
