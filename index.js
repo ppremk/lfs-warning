@@ -45,9 +45,11 @@ async function run() {
           filesha: item.sha,
           fileblobsize: prFilesBlobs.size
         })
+
+        console.log(prFileNamewithBlob)
+
       })
 
-      console.log(prFileNamewithBlob)
 
     } else {
       console.log(`No Pull Request detected. Skipping LFS warning check`)
