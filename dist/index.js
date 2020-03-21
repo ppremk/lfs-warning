@@ -531,7 +531,7 @@ async function run() {
         })
         // console.log(prFilesBlobs) // returns an object
 
-        prFileNamewithBlob.push({
+        return prFileNamewithBlob.push({
           filename: item.filename,
           filesha: item.sha,
           fileblobsize: prFilesBlobs.size
