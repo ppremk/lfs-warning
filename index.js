@@ -37,14 +37,16 @@ async function run() {
           repo,
           file_sha: item.sha
         })
+        console.log(prFilesBlobs)
 
-        prFileNamewithBlob = prFilesBlobs.map(function(blobitem) {
-          return {
-            filename: item.filename,
-            filesha: item.sha,
-            fileblobsize: blobitem.size
-          }
-        })
+        for (let prFilesBlob in prFilesBlobs){
+          prFileNamewithBlob.push({
+            "filename": item.filename,
+            "filesha": item.sha,
+            prFilesBlob : prFilesBlobs[prFilesBlob]
+          })
+        }
+        
       })
 
       console.log(prFileNamewithBlob)
