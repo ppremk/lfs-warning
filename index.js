@@ -40,12 +40,10 @@ async function run() {
             file_sha: item.sha
           })
 
-          if (prFilesBlobs.size > fsl){
-            newPRobj = {
-              filename: item.filename,
-              filesha: item.sha,
-              fileblobsize: prFilesBlobs.size
-            }
+          newPRobj = {
+            filename: item.filename,
+            filesha: item.sha,
+            fileblobsize: prFilesBlobs.size
           }
 
           return newPRobj
@@ -55,7 +53,16 @@ async function run() {
       console.log("After Getting Size Property")
       console.log(prFilesWithBlobSize)
 
-      console.log(typeof(prFilesWithBlobSize))
+      let lfsFiles = prFilesWithBlobSize.map(function(item){
+        let lfs=[]
+        if(item.size > fsl){
+          lfs.push(item.filename)
+        }
+
+        return lfs
+      })
+
+      console.log(lfsFiles)
 
 
 
