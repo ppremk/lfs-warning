@@ -40,10 +40,12 @@ async function run() {
             file_sha: item.sha
           })
 
-          newPRobj = {
-            filename: item.filename,
-            filesha: item.sha,
-            fileblobsize: prFilesBlobs.size
+          if (prFilesBlobs.size > fsl){
+            newPRobj = {
+              filename: item.filename,
+              filesha: item.sha,
+              fileblobsize: prFilesBlobs.size
+            }
           }
 
           return newPRobj
@@ -53,13 +55,9 @@ async function run() {
       console.log("After Getting Size Property")
       console.log(prFilesWithBlobSize)
 
-      console.log("ObjEntries: ")
-      let lfsFilesObj = Object.entries(prFilesWithBlobSize)
-      console.log(lfsFilesObj)
+      console.log(typeof(prFilesWithBlobSize))
 
-      let lfsFiles = lfsFilesObj(file => file.fileblobsize > fsl)
-      console.log("Detected Large File(s)")
-      console.log(lfsFiles)
+
 
 
     } else {
