@@ -40,11 +40,14 @@ async function run() {
             file_sha: item.sha
           })
 
-          newPRobj.push({
-            filename: item.filename,
-            filesha: item.sha,
-            fileblobsize: prFilesBlobs.size
-          })
+          // this should not have duplicates
+          if(prFilesBlobs.filter(prFilesBlob => prFilesBlob.sha === item.sha)){
+            newPRobj.push({
+              filename: item.filename,
+              filesha: item.sha,
+              fileblobsize: prFilesBlobs.size
+            })
+          }
 
           return newPRobj
         })
