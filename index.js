@@ -39,16 +39,16 @@ async function run() {
             file_sha: item.sha
           })
   
-          pullRequest['size'] = prFilesBlobs.size
+          // pullRequest['size'] = prFilesBlobs.size
   
-          // let newPRobj = []
-          // newPRobj.push({
-          //   filename: item.filename,
-          //   filesha: item.sha,
-          //   fileblobsize: prFilesBlobs.size
-          // })
+          let newPRobj = []
+          newPRobj.push({
+            filename: item.filename,
+            filesha: item.sha,
+            fileblobsize: prFilesBlobs.size
+          })
   
-          return pullRequest
+          return newPRobj
         })
       ) 
 
