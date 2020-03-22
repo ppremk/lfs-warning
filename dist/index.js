@@ -537,7 +537,7 @@ async function run() {
         //   fileblobsize: prFilesBlobs.size
         // })
 
-        return pullRequest
+        return await Promise.all(pullRequest)
       })
       console.log("After Getting Size Property")
       console.log(prFilesWithBlobSize)
