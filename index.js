@@ -68,9 +68,15 @@ async function run() {
           owner,
           repo,
           issue_number: issue_pr_number,
-          body: `Possible large files detected. The following ${lfsFile.toString()} file(s) exceeds the file size limit: ${fsl} bytes, as set in the .yml configuration files.`
+          body: `Possible large files detected. The following file(s) exceeds the file size limit: ${fsl} bytes, as set in the .yml configuration files
+           ${lfsFile.toString()}`
         })
       }
+
+      // TODO:
+      // Format body reply to have multiline for each array ellement
+      // logic to add lfs-file warning label in Pr
+      // logic to set PR status as failed
 
     } else {
       console.log(`No Pull Request detected. Skipping LFS warning check`)
