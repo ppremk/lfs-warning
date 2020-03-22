@@ -31,20 +31,23 @@ async function run() {
       console.log("Before Getting Size Property")
       console.log(pullRequest) // returns an array of objects
 
-      let prFilesWithBlobSize = pullRequest.map(async function(item) {
+      let prFilesWithBlobSize = pullRequest.map(async function(item, index, array) {
         const { data: prFilesBlobs } = await octokit.git.getBlob({
           owner,
           repo,
           file_sha: item.sha
         })
 
-        let newPRobj = []
-        newPRobj.push({
-          filename: item.filename,
-          filesha: item.sha,
-          fileblobsize: prFilesBlobs.size
-        })
-        return newPRobj
+        pullRequest['size'] = prFilesBlobs.size
+
+        // let newPRobj = []
+        // newPRobj.push({
+        //   filename: item.filename,
+        //   filesha: item.sha,
+        //   fileblobsize: prFilesBlobs.size
+        // })
+
+        return pullRequest
       })
       console.log("After Getting Size Property")
       //console.log(prFilesWithBlobSize)
