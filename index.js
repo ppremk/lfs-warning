@@ -50,12 +50,8 @@ async function run() {
         return pullRequest
       })
       console.log("After Getting Size Property")
-      //console.log(prFilesWithBlobSize)
+      console.log(prFilesWithBlobSize)
 
-      prFilesWithBlobSize.then(function(result) {
-        console.log(result)
-      })
-      
     } else {
       console.log(`No Pull Request detected. Skipping LFS warning check`)
     }
