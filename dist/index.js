@@ -550,21 +550,17 @@ async function run() {
         }
       }
 
-      // let lfs=[]
-      // let lfsFiles = await Promise.all(
-      //   prFilesWithBlobSize.map(function(item){
-      //     if(item.size > fsl){
-      //       lfs.push(item.filename)
-      //     }  
-      //     return lfs
-      //   })
-      // ) 
-
       console.log("Detected large file(s):")
       console.log(lfsFile)
 
-
-
+      if (lfsFile.length > 0) {
+        octokit.github.issues.createComment({
+          owner,
+          repo,
+          issue_number: issue_pr_number,
+          body: `Possible large files detected. The following ${lfsFile.toString()} file(s) exceeds the file size limit: ${fsl} bytes, as set in the .yml configuration files.`
+        })
+      }
 
     } else {
       console.log(`No Pull Request detected. Skipping LFS warning check`)
