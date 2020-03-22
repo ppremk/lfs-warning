@@ -518,24 +518,29 @@ async function run() {
         repo,
         pull_number: issue_pr_number
       })
-      console.log('Before Getting Size Property')
+      console.log("Before Getting Size Property")
       console.log(pullRequest) // returns an array of objects
-      
-      pullRequest.forEach(async function(item) {
+
+      let prFilesWithBlobSize = pullRequest.map(async function(item) {
         const { data: prFilesBlobs } = await octokit.git.getBlob({
           owner,
           repo,
           file_sha: item.sha
         })
-        item.size = prFilesBlobs.size
-      })
-      console.log('After Getting Size Property')
-      console.log(pullRequest)
 
+        let newPRobj = []
+        newPRobj.push({
+          filename: item.filename,
+          filesha: item.sha,
+          fileblobsize: prFilesBlobs.size
+        })
+        return newPRobj
+      })
+      console.log("After Getting Size Property")
+      console.log(prFilesWithBlobSize)
     } else {
       console.log(`No Pull Request detected. Skipping LFS warning check`)
     }
-
   } catch (error) {
     core.setFailed(error.message)
   }
