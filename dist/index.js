@@ -569,7 +569,7 @@ async function run() {
 
 async function getPrFileSize(prdata) {
   let prFileNamewithBlob = [{}]
-  prdata.forEach(async function(item) {
+   await prdata.forEach(async function(item) {
     const { data: prFilesBlobs } = await octokit.git.getBlob({
       owner,
       repo,
@@ -582,7 +582,7 @@ async function getPrFileSize(prdata) {
       fileblobsize: prFilesBlobs.size
     })
   })
-  return await Promise.all(prFileNamewithBlob)
+  return Promise.all(prFileNamewithBlob) ;
 }
 
 
