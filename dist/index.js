@@ -520,33 +520,23 @@ async function run() {
       })
 
       // console.log(pullRequest) // returns an array of objects
+      let prFileNamewithBlob
 
-      // var prFileNamewithBlob = {}
+      prFileNamewithBlob = pullRequest.forEach(async function(item) {
+        const { data: prFilesBlobs } = await octokit.git.getBlob({
+          owner,
+          repo,
+          file_sha: item.sha
+        })
+        // console.log(prFilesBlobs) // returns an object
 
-      // pullRequest.forEach(async function(item) {
-      //   const { data: prFilesBlobs } = await octokit.git.getBlob({
-      //     owner,
-      //     repo,
-      //     file_sha: item.sha
-      //   })
-      //   // console.log(prFilesBlobs) // returns an object
+        item.size = prFilesBlobs.size
 
-      //   Object.assign(prFileNamewithBlob, {
-      //     filename: item.filename,
-      //     filesha: item.sha,
-      //     fileblobsize: prFilesBlobs.size
-      //   })
+      })
 
-      //   // prFileNamewithBlob.push({
-      //   //   filename: item.filename,
-      //   //   filesha: item.sha,
-      //   //   fileblobsize: prFilesBlobs.size
-      //   // })
-      // })
+      // getPrFileSize(pullRequest).then(prFileNamewithBlobs => console.log(prFileNamewithBlobs))
 
-      getPrFileSize(pullRequest).then(prFileNamewithBlobs => console.log(prFileNamewithBlobs))
-
-      // console.log(getPrFileSize(pullRequest))
+      console.log(prFileNamewithBlob)
 
     } else {
       console.log(`No Pull Request detected. Skipping LFS warning check`)
@@ -569,23 +559,28 @@ async function run() {
   }
 }
 
-async function getPrFileSize(prdata) {
-  let prFileNamewithBlob = [{}]
-  prdata.forEach(async function(item) {
-    const { data: prFilesBlobs } = await octokit.git.getBlob({
-      owner,
-      repo,
-      file_sha: item.sha
-    })
+// async function getPrFileSize(prdata) {
+//   let prFileNamewithBlob = [{}]
 
-    prFileNamewithBlob.push({
-      filename: item.filename,
-      filesha: item.sha,
-      fileblobsize: prFilesBlobs.size
-    })
-  })
-  return prFileNamewithBlob
-}
+
+//   prdata.forEach(async function(item) {
+//     const { data: prFilesBlobs } = await octokit.git.getBlob({
+//       owner,
+//       repo,
+//       file_sha: item.sha
+//     })
+
+//     prFileNamewithBlob.push({
+//       filename: item.filename,
+//       filesha: item.sha,
+//       fileblobsize: prFilesBlobs.size
+//     })
+//   })
+
+
+
+//   return prFileNamewithBlob
+// }
 
 
 run()
