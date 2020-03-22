@@ -543,7 +543,11 @@ async function run() {
       console.log("After Getting Size Property")
       console.log(prFilesWithBlobSize)
 
-      let lfsFiles = prFilesWithBlobSize(file => file.fileblobsize > fsl)
+      console.log("ObjEntries: ")
+      let lfsFilesObj = Object.entries(prFilesWithBlobSize)
+      console.log(lfsFilesObj)
+
+      let lfsFiles = lfsFilesObj(file => file.fileblobsize > fsl)
       console.log("Detected Large File(s)")
       console.log(lfsFiles)
 
