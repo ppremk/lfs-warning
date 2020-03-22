@@ -519,7 +519,7 @@ async function run() {
         pull_number: issue_pr_number
       })
       console.log("Before Getting Size Property")
-      console.log(pullRequest) // returns an array of objects
+      console.log(pullRequest) 
 
       let newPRobj
       let prFilesWithBlobSize = await Promise.all(
@@ -542,8 +542,11 @@ async function run() {
 
       console.log("After Getting Size Property")
       console.log(prFilesWithBlobSize)
-      console.log("typeOf returned obj is: ")
-      console.log(typeof(prFilesWithBlobSize))
+
+      let lfsFiles = prFilesWithBlobSize(file => file.fileblobsize > fsl)
+      console.log("Detected Large File(s)")
+      console.log(lfsFiles)
+
 
     } else {
       console.log(`No Pull Request detected. Skipping LFS warning check`)
