@@ -543,8 +543,8 @@ async function run() {
       console.log("After Getting Size Property")
       console.log(prFilesWithBlobSize)
 
+      let lfs=[]
       let lfsFiles = prFilesWithBlobSize.map(function(item){
-        let lfs=[]
         if(item.size > fsl){
           lfs.push(item.filename)
         }
@@ -552,6 +552,7 @@ async function run() {
         return lfs
       })
 
+      console.log("Detected large file(s):")
       console.log(lfsFiles)
 
 
