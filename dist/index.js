@@ -543,17 +543,22 @@ async function run() {
       console.log("After Getting Size Property")
       console.log(prFilesWithBlobSize)
 
-      let lfs=[]
-      let lfsFiles = prFilesWithBlobSize.map(function(item){
-        if(item.size > fsl){
-          lfs.push(item.filename)
-        }
+      for(let prop in prFilesWithBlobSize){
+        console.log(prFilesWithBlobSize[prop])
+      }
 
-        return lfs
-      })
+      // let lfs=[]
+      // let lfsFiles = await Promise.all(
+      //   prFilesWithBlobSize.map(function(item){
+      //     if(item.size > fsl){
+      //       lfs.push(item.filename)
+      //     }  
+      //     return lfs
+      //   })
+      // ) 
 
-      console.log("Detected large file(s):")
-      console.log(lfsFiles)
+      // console.log("Detected large file(s):")
+      // console.log(lfsFiles)
 
 
 
