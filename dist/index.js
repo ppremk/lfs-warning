@@ -542,7 +542,9 @@ async function run() {
 
       console.log("After Getting Size Property")
       console.log(prFilesWithBlobSize)
-      
+      console.log("typeOf returned obj is: ")
+      console.log(typeof(prFilesWithBlobSize))
+
     } else {
       console.log(`No Pull Request detected. Skipping LFS warning check`)
     }
