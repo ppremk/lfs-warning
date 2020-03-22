@@ -28,7 +28,6 @@ async function run() {
         repo,
         pull_number: issue_pr_number
       })
-      console.log('Before Getting Size Property')
       console.log(pullRequest) // returns an array of objects
       
       // pullRequest.forEach(async function(item) {
@@ -49,45 +48,9 @@ async function run() {
       console.log(`No Pull Request detected. Skipping LFS warning check`)
     }
 
-    // Compare size of Blob with filesizelimit threshold
-
-    // TODO
-
-    // // Create a Issue Comment if size is overlimit
-    // octokit.github.issues.createComment({
-    //   owner,
-    //   repo,
-    //   issue_number: issue_pr_number,
-    //   body:
-    //     "Max file sizelimit detected, consider using Git-LFS before merging this file in your target branch"
-    // })
   } catch (error) {
     core.setFailed(error.message)
   }
 }
-
-// async function getPrFileSize(prdata) {
-//   let prFileNamewithBlob = [{}]
-
-
-//   prdata.forEach(async function(item) {
-//     const { data: prFilesBlobs } = await octokit.git.getBlob({
-//       owner,
-//       repo,
-//       file_sha: item.sha
-//     })
-
-//     prFileNamewithBlob.push({
-//       filename: item.filename,
-//       filesha: item.sha,
-//       fileblobsize: prFilesBlobs.size
-//     })
-//   })
-
-
-
-//   return prFileNamewithBlob
-// }
-
 
 run()
