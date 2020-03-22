@@ -534,7 +534,7 @@ async function run() {
           filesha: item.sha,
           fileblobsize: prFilesBlobs.size
         })
-        return newPRobj
+        return Promise.all(newPRobj)
       })
       console.log("After Getting Size Property")
       console.log(prFilesWithBlobSize)
