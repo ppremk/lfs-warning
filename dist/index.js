@@ -553,8 +553,8 @@ async function run() {
       console.log("Detected large file(s):")
       console.log(lfsFile)
 
-      if (lfsFile.length > 0) {
-        octokit.github.issues.createComment({
+      if (lfsFile.length > 0) {        
+        await octokit.issues.createComment({
           owner,
           repo,
           issue_number: issue_pr_number,
