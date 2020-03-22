@@ -4,7 +4,7 @@ inputs:
   filesizelimit:  # id of input 
     description: 'file size threshold'
     required: true
-    default: '10485760' # 10 MB is 10485760 Bytes
+    default: '5000' # for testing # '10485760' # 10 MB is 10485760 Bytes 
 outputs:
   time: # output will be available to future steps 
     description: 'Possible large file(s) detected. Consider using Git-LFS in your repository commits'
