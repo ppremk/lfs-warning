@@ -92,7 +92,7 @@ async function getPrFileSize(prdata) {
       fileblobsize: prFilesBlobs.size
     })
   })
-  return prFileNamewithBlob;
+  return await Promise.all(prFileNamewithBlob)
 }
 
 
