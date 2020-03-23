@@ -498,6 +498,7 @@ const { owner, repo } = context.repo
 const event_type = context.eventName
 
 let issue_pr_number
+let lfslabel = []
 
 // most @actions toolkit packages have async methods
 async function run() {
@@ -509,7 +510,6 @@ async function run() {
     console.log(`Name of Repository is ${repo} and the owner is ${owner}`)
     console.log(`Triggered event is ${event_type}`)
 
-    let lfslabel
     try {
       // Get LFS Warning Label
       lfslabel = await octokit.issues.getLabel({
