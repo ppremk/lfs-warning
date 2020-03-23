@@ -66,13 +66,12 @@ async function run() {
       if (lfsFile.length > 0) {   
         
         lfsFile.join('\n')
-        let bodyTemplate = `
-        ## :warning: Possible large file(s) detected :warning:
+        let bodyTemplate = `## :warning: Possible large file(s) detected :warning:
   
         The following file(s) exceeds the file size limit: ${fsl} bytes, as set in the .yml configuration files
         
-        _${lfsFile.toString()}_
-        `
+        ${lfsFile.toString()}`
+        
         await octokit.issues.createComment({
           owner,
           repo,
@@ -86,6 +85,8 @@ async function run() {
       // Format body reply to have multiline for each array ellement
       // logic to add lfs-file warning label in Pr
       // logic to set PR status as failed
+
+      // git lfs attributes misconfiguration
 
     } else {
       console.log(`No Pull Request detected. Skipping LFS warning check`)
