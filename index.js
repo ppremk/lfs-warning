@@ -12,11 +12,12 @@ let issue_pr_number
 // most @actions toolkit packages have async methods
 async function run() {
   try {
+
+    const fsl = core.getInput("filesizelimit")
+
     console.log(`Default configured filesizelimit is set to ${fsl} bytes...`)
     console.log(`Name of Repository is ${repo} and the owner is ${owner}`)
     console.log(`Triggered event is ${event_type}`)
-
-    const fsl = core.getInput("filesizelimit")
 
     // Get LFS Warning Label
     let lfslabel = await octokit.issues.getLabel({
