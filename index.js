@@ -8,7 +8,7 @@ const { owner, repo } = context.repo
 const event_type = context.eventName
 
 let issue_pr_number
-let lfslabel = []
+const labels = []
 
 // most @actions toolkit packages have async methods
 async function run() {
@@ -109,7 +109,7 @@ async function run() {
           owner,
           repo,
           issue_number: issue_pr_number,
-          labels: lfslabel
+          labels
         });
         
         await octokit.issues.createComment({
