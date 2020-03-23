@@ -22,11 +22,15 @@ async function run() {
 
     try {
       // Get LFS Warning Label
-      lfslabel = await octokit.issues.getLabel({
+      let lfslabelObj = await octokit.issues.getLabel({
         owner,
         repo,
         name: ":warning: lfs-detected!"
       })
+
+      for (let prop in lfslabelObj) {
+        lfslabel.push(lfslabelObj[prop].name)
+      }
 
       console.log(`Repo has label - ${lfslabel}`)
 
@@ -39,6 +43,8 @@ async function run() {
           description:
             "Warning Label for use when LFS is detected in the commits of a Pull Request"
         })
+
+        lfslabel = [':warning: lfs-detected!']
 
         console.log(`No lfs warning label detected. Creating new label ...`)
         console.log(`LFS warning label created`)      
