@@ -63,13 +63,22 @@ async function run() {
       console.log("Detected large file(s):")
       console.log(lfsFile)
 
-      if (lfsFile.length > 0) {        
+      if (lfsFile.length > 0) {   
+        
+        lfsFile.join('\n')
+        let bodyTemplate = `
+        ## :warning: Possible large file(s) detected :warning:
+  
+        The following file(s) exceeds the file size limit: ${fsl} bytes, as set in the .yml configuration files
+        
+        _${lfsFile.toString()}_
+        `
         await octokit.issues.createComment({
           owner,
           repo,
           issue_number: issue_pr_number,
-          body: `Possible large files detected. The following file(s) exceeds the file size limit: ${fsl} bytes, as set in the .yml configuration files
-           ${lfsFile.toString()}`
+          body: bodyTemplate
+
         })
       }
 
