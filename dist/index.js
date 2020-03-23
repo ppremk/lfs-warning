@@ -516,21 +516,23 @@ async function run() {
       name: ":warning: lfs-detected!"
     })
 
-    console.log(`Repo has lfs warning label - ${lfslabel}`)
+    console.log(lfslabel)
 
-    if (lfslabel === undefined) {
-      await octokit.issues.createLabel({
-        owner,
-        repo,
-        name: ":warning: lfs-detected!",
-        color: "ffcf00",
-        description:
-          "Warning Label for use when LFS is detected in the commits of a Pull Request"
-      })
+    // console.log(`Repo has lfs warning label - ${lfslabel}`)
 
-      console.log(`No lfs warning label detected. Creating new label ...`)
-      console.log(`LFS warning label created`)
-    }
+    // if (lfslabel === undefined) {
+    //   await octokit.issues.createLabel({
+    //     owner,
+    //     repo,
+    //     name: ":warning: lfs-detected!",
+    //     color: "ffcf00",
+    //     description:
+    //       "Warning Label for use when LFS is detected in the commits of a Pull Request"
+    //   })
+
+    //   console.log(`No lfs warning label detected. Creating new label ...`)
+    //   console.log(`LFS warning label created`)
+    // }
 
     // Get List of files for Pull Request
     if (event_type === "pull_request") {
