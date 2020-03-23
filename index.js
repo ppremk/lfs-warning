@@ -16,6 +16,8 @@ async function run() {
     console.log(`Name of Repository is ${repo} and the owner is ${owner}`)
     console.log(`Triggered event is ${event_type}`)
 
+    const fsl = core.getInput("filesizelimit")
+
     // Get LFS Warning Label
     let lfslabel = await octokit.issues.getLabel({
       owner,
@@ -40,8 +42,6 @@ async function run() {
     }
 
     // Get List of files for Pull Request
-    const fsl = core.getInput("filesizelimit")
-
     if (event_type === "pull_request") {
       issue_pr_number = context.payload.pull_request.number
 
@@ -113,7 +113,7 @@ async function run() {
       // logic to set PR status as failed
 
       // git lfs attributes misconfiguration lfs watch dog logic
-      
+
     } else {
       console.log(`No Pull Request detected. Skipping LFS warning check`)
     }
