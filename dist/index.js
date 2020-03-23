@@ -518,19 +518,14 @@ async function run() {
         name: ":warning: lfs-detected!"
       })
 
-      console.log(lfslabel)
+      console.log(`Repo has label - ${lfslabel}`)
 
-      // console.log(`Repo has lfs warning label - ${lfslabel}`)
-
-      // if (lfslabel === undefined) {
-      // }
-      
     } catch (error) {
         await octokit.issues.createLabel({
           owner,
           repo,
           name: ":warning: lfs-detected!",
-          color: "ffcf00",
+          color: "F92672",
           description:
             "Warning Label for use when LFS is detected in the commits of a Pull Request"
         })
@@ -591,14 +586,25 @@ async function run() {
         let bodyTemplate = `## :warning: Possible large file(s) detected :warning: \n
         The following file(s) exceeds the file size limit: ${fsl} bytes, as set in the .yml configuration files
         
-        ${lfsFile.toString()}`
+        ${lfsFile.toString()} \n
+        Consider using git-lfs as best practises to track and commit file(s)`
 
+        await octokit.issues.addLabels({
+          owner,
+          repo,
+          issue_number: issue_pr_number,
+          labels: lfslabel
+        });
+        
         await octokit.issues.createComment({
           owner,
           repo,
           issue_number: issue_pr_number,
           body: bodyTemplate
         })
+
+        core.setFailed(`Large File detected! Setting PR status to failed. Consider using git-lfs to track the LFS files`)        
+
       } else {
 
         console.log("No large file(s) detected...")
@@ -606,10 +612,6 @@ async function run() {
       }
 
       // TODO:
-
-      // logic to add lfs-file warning label in Pr
-      // logic to set PR status as failed
-
       // git lfs attributes misconfiguration lfs watch dog logic
 
     } else {
