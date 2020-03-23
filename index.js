@@ -8,7 +8,7 @@ const { owner, repo } = context.repo
 const event_type = context.eventName
 
 let issue_pr_number
-const labels = []
+const labels = [":warning: lfs-detected!"]
 
 // most @actions toolkit packages have async methods
 async function run() {
@@ -20,35 +20,33 @@ async function run() {
     console.log(`Name of Repository is ${repo} and the owner is ${owner}`)
     console.log(`Triggered event is ${event_type}`)
 
-    try {
-      // Get LFS Warning Label
-      let lfslabelObj = await octokit.issues.getLabel({
-        owner,
-        repo,
-        name: ":warning: lfs-detected!"
-      })
+    // try {
+    //   // Get LFS Warning Label
+    //   let lfslabelObj = await octokit.issues.getLabel({
+    //     owner,
+    //     repo,
+    //     name: ":warning: lfs-detected!"
+    //   })
 
-      for (let prop in lfslabelObj) {
-        lfslabel.push(lfslabelObj[prop].name)
-      }
+    //   for (let prop in lfslabelObj) {
+    //     lfslabel.push(lfslabelObj[prop].name)
+    //   }
 
-      console.log(`Repo has label - ${lfslabel}`)
+    //   console.log(`Repo has label - ${lfslabel}`)
 
-    } catch (error) {
-        await octokit.issues.createLabel({
-          owner,
-          repo,
-          name: ":warning: lfs-detected!",
-          color: "F92672",
-          description:
-            "Warning Label for use when LFS is detected in the commits of a Pull Request"
-        })
+    // } catch (error) {
+    //     await octokit.issues.createLabel({
+    //       owner,
+    //       repo,
+    //       name: ":warning: lfs-detected!",
+    //       color: "F92672",
+    //       description:
+    //         "Warning Label for use when LFS is detected in the commits of a Pull Request"
+    //     })
 
-        lfslabel = [':warning: lfs-detected!']
-
-        console.log(`No lfs warning label detected. Creating new label ...`)
-        console.log(`LFS warning label created`)      
-    }
+    //     console.log(`No lfs warning label detected. Creating new label ...`)
+    //     console.log(`LFS warning label created`)      
+    // }
 
     // Get List of files for Pull Request
     if (event_type === "pull_request") {
