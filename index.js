@@ -66,12 +66,11 @@ async function run() {
       if (lfsFile.length > 0) {   
         
         lfsFile.join('\n')
-        let bodyTemplate = `## :warning: Possible large file(s) detected :warning:
-  
-        The following file(s) exceeds the file size limit: ${fsl} bytes, as set in the .yml configuration files
+        let bodyTemplate = `## :warning: Possible large file(s) detected :warning: \n
+        The following file(s) exceeds the file size limit: ${fsl} bytes, as set in the .yml configuration files \n
         
         ${lfsFile.toString()}`
-        
+
         await octokit.issues.createComment({
           owner,
           repo,
