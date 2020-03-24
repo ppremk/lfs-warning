@@ -510,33 +510,33 @@ async function run() {
     console.log(`Name of Repository is ${repo} and the owner is ${owner}`)
     console.log(`Triggered event is ${event_type}`)
 
-    // try {
-    //   // Get LFS Warning Label
-    //   let lfslabelObj = await octokit.issues.getLabel({
-    //     owner,
-    //     repo,
-    //     name: ":warning: lfs-detected!"
-    //   })
+    try {
+      // Get LFS Warning Label
+      let lfslabelObj = await octokit.issues.getLabel({
+        owner,
+        repo,
+        name: ":warning: lfs-detected!"
+      })
 
-    //   for (let prop in lfslabelObj) {
-    //     lfslabel.push(lfslabelObj[prop].name)
-    //   }
+      for (let prop in lfslabelObj) {
+        lfslabel.push(lfslabelObj[prop].name)
+      }
 
-    //   console.log(`Repo has label - ${lfslabel}`)
+      console.log(`Repo has label - ${lfslabel}`)
 
-    // } catch (error) {
-    //     await octokit.issues.createLabel({
-    //       owner,
-    //       repo,
-    //       name: ":warning: lfs-detected!",
-    //       color: "F92672",
-    //       description:
-    //         "Warning Label for use when LFS is detected in the commits of a Pull Request"
-    //     })
+    } catch (error) {
+        await octokit.issues.createLabel({
+          owner,
+          repo,
+          name: ":warning: lfs-detected!",
+          color: "F92672",
+          description:
+            "Warning Label for use when LFS is detected in the commits of a Pull Request"
+        })
 
-    //     console.log(`No lfs warning label detected. Creating new label ...`)
-    //     console.log(`LFS warning label created`)      
-    // }
+        console.log(`No lfs warning label detected. Creating new label ...`)
+        console.log(`LFS warning label created`)      
+    }
 
     // Get List of files for Pull Request
     if (event_type === "pull_request") {
@@ -549,8 +549,6 @@ async function run() {
         repo,
         pull_number: issue_pr_number
       })
-      console.log("Before Getting Size Property") // for debug - remove for production
-      console.log(pullRequest)  // for debug - remove for production
 
       let newPRobj
       let prFilesWithBlobSize = await Promise.all(
@@ -571,7 +569,6 @@ async function run() {
         })
       )
 
-      console.log("After Getting Size Property")  // for debug - remove for production
       console.log(prFilesWithBlobSize)  // for debug - remove for production
 
       let lfsFile = []
@@ -607,6 +604,7 @@ async function run() {
           body: bodyTemplate
         })
 
+        core.setOutput("lfsFiles", lfsFile)
         core.setFailed(`Large File detected! Setting PR status to failed. Consider using git-lfs to track the LFS files`)        
 
       } else {
