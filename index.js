@@ -59,8 +59,6 @@ async function run() {
         repo,
         pull_number: issue_pr_number
       })
-      console.log("Before Getting Size Property") // for debug - remove for production
-      console.log(pullRequest)  // for debug - remove for production
 
       let newPRobj
       let prFilesWithBlobSize = await Promise.all(
@@ -81,7 +79,6 @@ async function run() {
         })
       )
 
-      console.log("After Getting Size Property")  // for debug - remove for production
       console.log(prFilesWithBlobSize)  // for debug - remove for production
 
       let lfsFile = []
@@ -117,6 +114,7 @@ async function run() {
           body: bodyTemplate
         })
 
+        core.setOutput("lfsFiles", lfsFile)
         core.setFailed(`Large File detected! Setting PR status to failed. Consider using git-lfs to track the LFS files`)        
 
       } else {
