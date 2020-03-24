@@ -22,7 +22,7 @@ async function run() {
         console.log(`Triggered event is ${event_type}`)
         
         // Get LFS Warning Label
-        let lfslabelObj
+        let lfslabelObj = {}
         try {
           lfslabelObj = await octokit.issues.getLabel({
             owner,
