@@ -2,7 +2,7 @@ name: LFS-warning
 
 on:
   pull_request:
-    types: [opened, edited]
+    types: [assigned, opened, edited, reopened, synchronize, ready_for_review]
   issue_comment:
     types: [created, edited]
 
