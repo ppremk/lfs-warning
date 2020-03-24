@@ -515,7 +515,7 @@ async function run() {
       let lfslabelObj = await octokit.issues.getLabel({
         owner,
         repo,
-        name: ":warning: lfs-detected!"
+        labels
       })
 
       for (let prop in lfslabelObj) {
