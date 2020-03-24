@@ -25,7 +25,7 @@ async function run() {
       let lfslabelObj = await octokit.issues.getLabel({
         owner,
         repo,
-        labels
+        name: labels
       })
 
       for (let prop in lfslabelObj) {
