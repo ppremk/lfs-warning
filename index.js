@@ -42,7 +42,7 @@ async function run() {
             owner,
             repo,
             name: "lfs-detected!",
-            color: "F92672",
+            color: "ff1493",
             description:
               "Warning Label for use when LFS is detected in the commits of a Pull Request"
           })
@@ -97,11 +97,13 @@ async function run() {
             console.log(lfsFile)
 
             lfsFile.join("\n")
+            console.log(lfsFile)
+            
             let bodyTemplate = `## :warning: Possible large file(s) detected :warning: \n
-        The following file(s) exceeds the file size limit: ${fsl} bytes, as set in the .yml configuration files
-        
-        ${lfsFile.toString()} \n
-        Consider using git-lfs as best practises to track and commit file(s)`
+            The following file(s) exceeds the file size limit: ${fsl} bytes, as set in the .yml configuration files
+            
+            ${lfsFile.toString()} \n
+            Consider using git-lfs as best practises to track and commit file(s)`
 
             await octokit.issues.addLabels({
               owner,
