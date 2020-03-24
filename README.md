@@ -6,13 +6,13 @@ Note: Remember to configure the branch protection rule and select the `LFS-warni
 
 ## Inputs
 
-` ### filesizelimit `
+#### `filesizelimit `
 
 Required, Set's the file size limit threshold in bytes. Default "10MB".
 
 ## Outputs
 
-`### lfsFiles `
+#### `lfsFiles `
 
 Returns am array of possible detected large file(s)
 
