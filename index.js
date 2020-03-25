@@ -8,11 +8,7 @@ const { owner, repo } = context.repo
 const event_type = context.eventName
 
 let issue_pr_number
-// const labels = [{
-//   name: "lfs-detected!",
-//   color: "ff1493",
-//   description: "Warning Label for use when LFS is detected in the commits of a Pull Request"
-// }]
+const labels = ["lfs-detected!"]
 
 // most @actions toolkit packages have async methods
 async function run() {
@@ -42,13 +38,16 @@ async function run() {
         }
 
         if (Object.entries(lfslabelObj).length === 0 && lfslabelObj.constuctor === Object) {
-          await octokit.issues.createLabel({
-            owner,
-            repo,
-            name: "lfs-detected!",
-            color: "ff1493",
-            description: "Warning Label for use when LFS is detected in the commits of a Pull Request"
-          })
+          Promise.all(
+            await octokit.issues.createLabel({
+              owner,
+              repo,
+              name: "lfs-detected!",
+              color: "ff1493",
+              description: "Warning Label for use when LFS is detected in the commits of a Pull Request"
+            })
+          )
+
           console.log(`No lfs warning label detected. Creating new label ...`)
           console.log(`LFS warning label created`)
         } else {
@@ -110,11 +109,7 @@ async function run() {
               owner,
               repo,
               issue_number: issue_pr_number,
-              labels: [{
-                name: "lfs-detected!",
-                color: "ff1493",
-                description: "Warning Label for use when LFS is detected in the commits of a Pull Request"
-              }]
+              labels
             })
 
             await octokit.issues.createComment({
@@ -125,15 +120,15 @@ async function run() {
             })
 
             core.setOutput("lfsFiles", lfsFile)
-            core.setFailed(
-              `Large File detected! Setting PR status to failed. Consider using git-lfs to track the LFS files`
-            )
+            core.setFailed(`Large File detected! Setting PR status to failed. Consider using git-lfs to track the LFS files`)
+
           } else {
             console.log("No large file(s) detected...")
           }
 
           // TODO:
           // git lfs attributes misconfiguration aka missing installation on client while git-lfs is configured on repo upstream
+
         } else {
           console.log(`No Pull Request detected. Skipping LFS warning check`)
         }
