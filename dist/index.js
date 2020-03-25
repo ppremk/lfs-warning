@@ -498,7 +498,11 @@ const { owner, repo } = context.repo
 const event_type = context.eventName
 
 let issue_pr_number
-const labels = ["lfs-detected!"]
+const labels = {
+  name: "lfs-detected!",
+  color: "ff1493",
+  description: "Warning Label for use when LFS is detected in the commits of a Pull Request"
+}
 
 // most @actions toolkit packages have async methods
 async function run() {
@@ -533,8 +537,7 @@ async function run() {
             repo,
             name: "lfs-detected!",
             color: "ff1493",
-            description:
-              "Warning Label for use when LFS is detected in the commits of a Pull Request"
+            description: "Warning Label for use when LFS is detected in the commits of a Pull Request"
           })
           console.log(`No lfs warning label detected. Creating new label ...`)
           console.log(`LFS warning label created`)
@@ -586,13 +589,13 @@ async function run() {
             console.log("Detected large file(s):")
             console.log(lfsFile)
 
-            lfsFile.join("\n")
-            console.log(lfsFile)
-            
+            let lfsFileNames = lfsFile.join("\n")
+            console.log(lfsFileNames)
+
             let bodyTemplate = `## :warning: Possible large file(s) detected :warning: \n
             The following file(s) exceeds the file size limit: ${fsl} bytes, as set in the .yml configuration files
             
-            ${lfsFile.toString()} \n
+            ${lfsFileNames.toString()} \n
             Consider using git-lfs as best practises to track and commit file(s)`
 
             await octokit.issues.addLabels({
