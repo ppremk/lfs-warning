@@ -31,25 +31,34 @@ async function run() {
           })
         } catch (error) {
           if (error.message === "Not Found") {
-            lfslabelObj = {}
+            // lfslabelObj = {}
+            await octokit.issues.createLabel({
+              owner,
+              repo,
+              name: "lfs-detected!",
+              color: "ff1493",
+              description: "Warning Label for use when LFS is detected in the commits of a Pull Request"
+            })
+            console.log(`No lfs warning label detected. Creating new label ...`)
+            console.log(`LFS warning label created`)
           } else {
             console.log(`getLabel error: ${error.message}`)
           }
         }
 
-        if (Object.entries(lfslabelObj).length === 0 && lfslabelObj.constuctor === Object) {
-          await octokit.issues.createLabel({
-            owner,
-            repo,
-            name: "lfs-detected!",
-            color: "ff1493",
-            description: "Warning Label for use when LFS is detected in the commits of a Pull Request"
-          })
-          console.log(`No lfs warning label detected. Creating new label ...`)
-          console.log(`LFS warning label created`)
-        } else {
-          console.log(`Repo has label - ${lfslabelObj}`)
-        }
+        // if (Object.entries(lfslabelObj).length === 0 && lfslabelObj.constuctor === Object) {
+        //   await octokit.issues.createLabel({
+        //     owner,
+        //     repo,
+        //     name: "lfs-detected!",
+        //     color: "ff1493",
+        //     description: "Warning Label for use when LFS is detected in the commits of a Pull Request"
+        //   })
+        //   console.log(`No lfs warning label detected. Creating new label ...`)
+        //   console.log(`LFS warning label created`)
+        // } else {
+        //   console.log(`Repo has label - ${lfslabelObj}`)
+        // }
 
         // Get List of files for Pull Request
         if (event_type === "pull_request") {
