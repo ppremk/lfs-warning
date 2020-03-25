@@ -498,11 +498,11 @@ const { owner, repo } = context.repo
 const event_type = context.eventName
 
 let issue_pr_number
-const labels = [{
-  name: "lfs-detected!",
-  color: "ff1493",
-  description: "Warning Label for use when LFS is detected in the commits of a Pull Request"
-}]
+// const labels = [{
+//   name: "lfs-detected!",
+//   color: "ff1493",
+//   description: "Warning Label for use when LFS is detected in the commits of a Pull Request"
+// }]
 
 // most @actions toolkit packages have async methods
 async function run() {
@@ -600,7 +600,11 @@ async function run() {
               owner,
               repo,
               issue_number: issue_pr_number,
-              labels
+              labels: [{
+                name: "lfs-detected!",
+                color: "ff1493",
+                description: "Warning Label for use when LFS is detected in the commits of a Pull Request"
+              }]
             })
 
             await octokit.issues.createComment({
