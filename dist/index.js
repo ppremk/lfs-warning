@@ -598,7 +598,8 @@ async function run() {
             let bodyTemplate = `## :warning: Possible large file(s) detected :warning: \n
             The following file(s) exceeds the file size limit: ${fsl} bytes, as set in the .yml configuration files
             
-            ${lfsFileNames.toString()} \n
+            ${lfsFileNames.toString()}
+            
             Consider using git-lfs as best practises to track and commit file(s)`
 
             await octokit.issues.addLabels({
