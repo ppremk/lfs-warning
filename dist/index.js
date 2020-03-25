@@ -521,7 +521,6 @@ async function run() {
           })
         } catch (error) {
           if (error.message === "Not Found") {
-            // lfslabelObj = {}
             await octokit.issues.createLabel({
               owner,
               repo,
@@ -532,23 +531,10 @@ async function run() {
             console.log(`No lfs warning label detected. Creating new label ...`)
             console.log(`LFS warning label created`)
           } else {
+            console.log(`Repo has label - ${lfslabelObj}`)
             console.log(`getLabel error: ${error.message}`)
           }
         }
-
-        // if (Object.entries(lfslabelObj).length === 0 && lfslabelObj.constuctor === Object) {
-        //   await octokit.issues.createLabel({
-        //     owner,
-        //     repo,
-        //     name: "lfs-detected!",
-        //     color: "ff1493",
-        //     description: "Warning Label for use when LFS is detected in the commits of a Pull Request"
-        //   })
-        //   console.log(`No lfs warning label detected. Creating new label ...`)
-        //   console.log(`LFS warning label created`)
-        // } else {
-        //   console.log(`Repo has label - ${lfslabelObj}`)
-        // }
 
         // Get List of files for Pull Request
         if (event_type === "pull_request") {
@@ -594,12 +580,12 @@ async function run() {
             console.log("Detected large file(s):")
             console.log(lfsFile)
 
-            let lfsFileNames = lfsFile.join("\n")
+            let lfsFileNames = lfsFile.join(", ")
             let bodyTemplate = `## :warning: Possible large file(s) detected :warning: \n
             The following file(s) exceeds the file size limit: ${fsl} bytes, as set in the .yml configuration files
             
             ${lfsFileNames.toString()}
-            
+
             Consider using git-lfs as best practises to track and commit file(s)`
 
             await octokit.issues.addLabels({
