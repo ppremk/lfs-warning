@@ -602,7 +602,7 @@ async function run() {
               owner,
               repo,
               issue_number: issue_pr_number,
-              labels : labels
+              labels : { labels }
             })
 
             await octokit.issues.createComment({
