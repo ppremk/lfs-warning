@@ -1,0 +1,16 @@
+name: 'LFS-warning'
+description: 'Checks file sizes in a Pull Request and warns of large files'
+inputs:
+  filesizelimit:  # id of input 
+    description: 'file size limit threshold'
+    required: true
+    default: '10485760' # 10 MB is 10485760 Bytes 
+outputs:
+  lfsFiles: # output will be available to future steps 
+    description: 'Array of possible detected large file(s)'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+branding:
+  icon: 'alert-triangle' # icon referenced from https://feathericons.com/
+  color: 'yellow'
