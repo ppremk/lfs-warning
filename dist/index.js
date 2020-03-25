@@ -520,7 +520,7 @@ async function run() {
             name: "lfs-detected!"
           })
         } catch (error) {
-          if (error.message === "##[error]Not Found") {
+          if (error.message === "Not Found") {
             lfslabelObj = {}
           } else {
             console.log(`getLabel error: ${error.message}`)
@@ -528,16 +528,13 @@ async function run() {
         }
 
         if (Object.entries(lfslabelObj).length === 0 && lfslabelObj.constuctor === Object) {
-          Promise.all(
-            await octokit.issues.createLabel({
-              owner,
-              repo,
-              name: "lfs-detected!",
-              color: "ff1493",
-              description: "Warning Label for use when LFS is detected in the commits of a Pull Request"
-            })
-          )
-
+          await octokit.issues.createLabel({
+            owner,
+            repo,
+            name: "lfs-detected!",
+            color: "ff1493",
+            description: "Warning Label for use when LFS is detected in the commits of a Pull Request"
+          })
           console.log(`No lfs warning label detected. Creating new label ...`)
           console.log(`LFS warning label created`)
         } else {
