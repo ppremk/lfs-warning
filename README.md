@@ -25,7 +25,7 @@ Returns an array of possible detected large file(s)
 Consume the action by referencing the stable branch
 
 ```yaml
-uses: ppremk/lfs-warning@v1.0
+uses: actionsdesk/lfs-warning@v1.1
 with:
   filesizelimit: '10485760' # 10 MB is 10485760 Bytes
 ```
