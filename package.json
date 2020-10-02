@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/ppremk/lfs-warning#readme",
   "dependencies": {
-    "@actions/core": "^1.1.1",
+    "@actions/core": "^1.2.6",
     "@actions/github": "^2.1.1"
   },
   "devDependencies": {
