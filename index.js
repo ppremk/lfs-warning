@@ -17,10 +17,10 @@ async function run() {
   try {
         const fsl = core.getInput("filesizelimit")
 
-        console.log(`Default configured filesizelimit is set to ${fsl} bytes...`)
-        console.log(`Name of Repository is ${repo} and the owner is ${owner}`)
-        console.log(`Triggered event is ${event_type}`)
-        
+        core.info(`Default configured filesizelimit is set to ${fsl} bytes...`)
+        core.info(`Name of Repository is ${repo} and the owner is ${owner}`)
+        core.info(`Triggered event is ${event_type}`)
+
         // Get LFS Warning Label
         let lfslabelObj = {}
         try {
@@ -38,10 +38,10 @@ async function run() {
               color: "ff1493",
               description: "Warning Label for use when LFS is detected in the commits of a Pull Request"
             })
-            console.log(`No lfs warning label detected. Creating new label ...`)
-            console.log(`LFS warning label created`)
+            core.info(`No lfs warning label detected. Creating new label ...`)
+            core.info(`LFS warning label created`)
           } else {
-            console.log(`getLabel error: ${error.message}`)
+            core.error(`getLabel error: ${error.message}`)
           }
         }
 
@@ -49,7 +49,7 @@ async function run() {
         if (event_type === "pull_request") {
           issue_pr_number = context.payload.pull_request.number
 
-          console.log(`The PR number is: ${issue_pr_number}`)
+          core.info(`The PR number is: ${issue_pr_number}`)
 
           const { data: pullRequest } = await octokit.pulls.listFiles({
             owner,
@@ -76,7 +76,7 @@ async function run() {
             })
           )
 
-          console.log(prFilesWithBlobSize)
+          core.info(prFilesWithBlobSize)
 
           let lfsFile = []
           for (let prop in prFilesWithBlobSize) {
@@ -86,13 +86,13 @@ async function run() {
           }
 
           if (lfsFile.length > 0) {
-            console.log("Detected large file(s):")
-            console.log(lfsFile)
+            core.info("Detected large file(s):")
+            core.info(lfsFile)
 
             let lfsFileNames = lfsFile.join(", ")
             let bodyTemplate = `## :warning: Possible large file(s) detected :warning: \n
             The following file(s) exceeds the file size limit: ${fsl} bytes, as set in the .yml configuration files
-            
+
             ${lfsFileNames.toString()}
 
             Consider using git-lfs as best practises to track and commit file(s)`
@@ -115,14 +115,14 @@ async function run() {
             core.setFailed(`Large File detected! Setting PR status to failed. Consider using git-lfs to track the LFS files`)
 
           } else {
-            console.log("No large file(s) detected...")
+            core.info("No large file(s) detected...")
           }
 
           // TODO:
           // git lfs attributes misconfiguration aka missing installation on client while git-lfs is configured on repo upstream
 
         } else {
-          console.log(`No Pull Request detected. Skipping LFS warning check`)
+          core.info(`No Pull Request detected. Skipping LFS warning check`)
         }
       } catch (error) {
     core.setFailed(error.message)
