@@ -29,7 +29,7 @@ Returns an array of possible detected large file(s)
 Consume the action by referencing the stable branch
 
 ```yaml
-uses: actionsdesk/lfs-warning@v2
+uses: actionsdesk/lfs-warning@v2.0
 with:
   token: ${{ secrets.GITHUB_TOKEN }} # Optional
   filesizelimit: '10485760' # 10 MB is 10485760 Bytes
