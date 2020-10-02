@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Get Repo Code
         id: get_repo_code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: LFS Warning
         id: lfs_warning

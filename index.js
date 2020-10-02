@@ -1,7 +1,9 @@
 const core = require("@actions/core")
 const github = require("@actions/github")
 
-const octokit = new github.GitHub(process.env.GITHUB_TOKEN)
+const myToken = core.getInput('token')
+const octokit = new github.GitHub(myToken)
+
 const context = github.context
 
 const { owner, repo } = context.repo

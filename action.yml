@@ -1,6 +1,10 @@
 name: 'LFS-warning'
 description: 'Checks file sizes in a Pull Request and warns of large files'
 inputs:
+  token:
+    required: false
+    description: Token used to fetch the repository
+    default: ${{ github.token }}
   filesizelimit:  # id of input 
     description: 'file size limit threshold'
     required: true
