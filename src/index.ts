@@ -1,10 +1,8 @@
-const core = require("@actions/core")
-const github = require("@actions/github")
+import * as core from "@actions/core";
+import * as github from "@actions/github";
+const octokit = github.getOctokit(core.getInput("token"));
 
-const myToken = core.getInput('token')
-const octokit = new github.GitHub(myToken)
-
-const context = github.context
+const context = github.context;
 
 const { owner, repo } = context.repo
 const event_type = context.eventName
@@ -24,14 +22,14 @@ async function run() {
         // Get LFS Warning Label
         let lfslabelObj = {}
         try {
-          lfslabelObj = await octokit.issues.getLabel({
+          lfslabelObj = await octokit.rest.issues.getLabel({
             owner,
             repo,
             name: "lfs-detected!"
           })
         } catch (error) {
           if (error.message === "Not Found") {
-            await octokit.issues.createLabel({
+            await octokit.rest.issues.createLabel({
               owner,
               repo,
               name: "lfs-detected!",
@@ -47,11 +45,15 @@ async function run() {
 
         // Get List of files for Pull Request
         if (event_type === "pull_request") {
-          issue_pr_number = context.payload.pull_request.number
+          issue_pr_number = context.payload.pull_request?.number
+
+          if (issue_pr_number === undefined) {
+            throw new Error("Could not get PR number")
+          }
 
           core.info(`The PR number is: ${issue_pr_number}`)
 
-          const { data: pullRequest } = await octokit.pulls.listFiles({
+          const { data: pullRequest } = await octokit.rest.pulls.listFiles({
             owner,
             repo,
             pull_number: issue_pr_number
@@ -60,7 +62,7 @@ async function run() {
           let newPRobj
           let prFilesWithBlobSize = await Promise.all(
             pullRequest.map(async function(item) {
-              const { data: prFilesBlobs } = await octokit.git.getBlob({
+              const { data: prFilesBlobs } = await octokit.rest.git.getBlob({
                 owner,
                 repo,
                 file_sha: item.sha
@@ -76,18 +78,19 @@ async function run() {
             })
           )
 
-          core.info(prFilesWithBlobSize)
+          core.info(String(prFilesWithBlobSize))
 
           let lfsFile = []
           for (let prop in prFilesWithBlobSize) {
-            if (prFilesWithBlobSize[prop].fileblobsize > fsl) {
+            const {fileblobsize} =  prFilesWithBlobSize[prop]
+            if (fileblobsize !== null && fileblobsize > Number(fsl)) {
               lfsFile.push(prFilesWithBlobSize[prop].filename)
             }
           }
 
           if (lfsFile.length > 0) {
             core.info("Detected large file(s):")
-            core.info(lfsFile)
+            core.info(String(lfsFile))
 
             let lfsFileNames = lfsFile.join(", ")
             let bodyTemplate = `## :warning: Possible large file(s) detected :warning: \n
@@ -97,14 +100,14 @@ async function run() {
 
             Consider using git-lfs as best practises to track and commit file(s)`
 
-            await octokit.issues.addLabels({
+            await octokit.rest.issues.addLabels({
               owner,
               repo,
               issue_number: issue_pr_number,
               labels
             })
 
-            await octokit.issues.createComment({
+            await octokit.rest.issues.createComment({
               owner,
               repo,
               issue_number: issue_pr_number,
