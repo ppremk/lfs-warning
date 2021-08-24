@@ -21,4 +21,6 @@ jobs:
         id: lfs_warning
         uses: ./
         with:
-          filesizelimit: 10485760 # 10MB
+          filesizelimit: 10MB
+          exclusionPatterns: |
+            **/*.png
