@@ -68,7 +68,7 @@ async function run() {
 
     if (lsfFiles.length > 0) {
       core.info('Detected file(s) that should be in LFS: ');
-      core.info(lsfFiles.join("\n"));
+      core.info(lsfFiles.join('\n'));
 
       const body = getCommentBody(largeFiles, accidentallyCheckedInLsfFiles);
 
@@ -133,18 +133,20 @@ async function getOrCreateLfsWarningLabel(labelName: string) {
       name: labelName,
     });
   } catch (error) {
-    if (error.message === 'Not Found') {
-      await octokit.rest.issues.createLabel({
-        ...repo,
-        name: 'lfs-detected!',
-        color: 'ff1493',
-        description:
-          'Warning Label for use when LFS is detected in the commits of a Pull Request',
-      });
-      core.info('No lfs warning label detected. Creating new label ...');
-      core.info('LFS warning label created');
-    } else {
-      core.error(`getLabel error: ${error.message}`);
+    if (error instanceof Error) {
+      if (error.message === 'Not Found') {
+        await octokit.rest.issues.createLabel({
+          ...repo,
+          name: 'lfs-detected!',
+          color: 'ff1493',
+          description:
+            'Warning Label for use when LFS is detected in the commits of a Pull Request',
+        });
+        core.info('No lfs warning label detected. Creating new label ...');
+        core.info('LFS warning label created');
+      } else {
+        core.error(`getLabel error: ${error.message}`);
+      }
     }
   }
 }
