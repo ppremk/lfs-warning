@@ -10472,7 +10472,7 @@ async function run() {
         if (lsfFiles.length > 0) {
             core.info('Detected file(s) that should be in LFS: ');
             core.info(lsfFiles.join('\n'));
-            const body = getCommentBody(largeFiles, accidentallyCheckedInLsfFiles);
+            const body = getCommentBody(largeFiles, accidentallyCheckedInLsfFiles, fsl);
             await Promise.all([
                 octokit.rest.issues.addLabels({
                     ...issueBaseProps,
@@ -10578,8 +10578,8 @@ async function getPrFilesWithBlobSize(pullRequestNumber) {
     }));
     return prFilesWithBlobSize;
 }
-function getCommentBody(largeFiles, accidentallyCheckedInLsfFiles) {
-    const largeFilesBody = `The following file(s) exceeds the file size limit: ${100} bytes, as set in the .yml configuration files:
+function getCommentBody(largeFiles, accidentallyCheckedInLsfFiles, fsl) {
+    const largeFilesBody = `The following file(s) exceeds the file size limit: ${fsl} bytes, as set in the .yml configuration files:
 
         ${largeFiles.join(', ')}
 
