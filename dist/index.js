@@ -10271,6 +10271,14 @@ module.exports = require("assert");
 
 /***/ }),
 
+/***/ 3129:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("child_process");
+
+/***/ }),
+
 /***/ 8614:
 /***/ ((module) => {
 
@@ -10400,17 +10408,6 @@ module.exports = require("zlib");
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__nccwpck_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
@@ -10420,26 +10417,15 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
-// ESM COMPAT FLAG
-__nccwpck_require__.r(__webpack_exports__);
+var exports = __webpack_exports__;
 
-// EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
-var core = __nccwpck_require__(2186);
-// EXTERNAL MODULE: ./node_modules/@actions/github/lib/github.js
-var github = __nccwpck_require__(5438);
-;// CONCATENATED MODULE: external "child_process"
-const external_child_process_namespaceObject = require("child_process");
-// EXTERNAL MODULE: ./node_modules/micromatch/index.js
-var micromatch = __nccwpck_require__(6228);
-// EXTERNAL MODULE: external "util"
-var external_util_ = __nccwpck_require__(1669);
-;// CONCATENATED MODULE: ./src/index.ts
-
-
-
-
-
-const execFileP = (0,external_util_.promisify)(external_child_process_namespaceObject.execFile);
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __nccwpck_require__(2186);
+const github = __nccwpck_require__(5438);
+const child_process_1 = __nccwpck_require__(3129);
+const micromatch = __nccwpck_require__(6228);
+const util_1 = __nccwpck_require__(1669);
+const execFileP = (0, util_1.promisify)(child_process_1.execFile);
 const octokit = github.getOctokit(core.getInput('token'));
 const context = github.context;
 const { repo } = context;
@@ -10485,7 +10471,7 @@ async function run() {
         };
         if (lsfFiles.length > 0) {
             core.info('Detected file(s) that should be in LFS: ');
-            core.info(lsfFiles.join("\n"));
+            core.info(lsfFiles.join('\n'));
             const body = getCommentBody(largeFiles, accidentallyCheckedInLsfFiles);
             await Promise.all([
                 octokit.rest.issues.addLabels({
@@ -10545,18 +10531,20 @@ async function getOrCreateLfsWarningLabel(labelName) {
         });
     }
     catch (error) {
-        if (error.message === 'Not Found') {
-            await octokit.rest.issues.createLabel({
-                ...repo,
-                name: 'lfs-detected!',
-                color: 'ff1493',
-                description: 'Warning Label for use when LFS is detected in the commits of a Pull Request',
-            });
-            core.info('No lfs warning label detected. Creating new label ...');
-            core.info('LFS warning label created');
-        }
-        else {
-            core.error(`getLabel error: ${error.message}`);
+        if (error instanceof Error) {
+            if (error.message === 'Not Found') {
+                await octokit.rest.issues.createLabel({
+                    ...repo,
+                    name: 'lfs-detected!',
+                    color: 'ff1493',
+                    description: 'Warning Label for use when LFS is detected in the commits of a Pull Request',
+                });
+                core.info('No lfs warning label detected. Creating new label ...');
+                core.info('LFS warning label created');
+            }
+            else {
+                core.error(`getLabel error: ${error.message}`);
+            }
         }
     }
 }
