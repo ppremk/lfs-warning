@@ -45,13 +45,16 @@ Returns an array of possible detected large file(s)
 
 ## Usage
 
-Consume the action by referencing the stable branch
+Consume the action by referencing the stable release
 
 ```yaml
 uses: actionsdesk/lfs-warning@v2.0
 with:
   token: ${{ secrets.GITHUB_TOKEN }} # Optional
-  filesizelimit: '10485760' # 10 MB is 10485760 Bytes
+  with:
+    filesizelimit: 10MB
+    exclusionPatterns: |
+      **/*.png
 ```
 
 ## Contributers
