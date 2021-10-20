@@ -13,7 +13,7 @@ This action scans files in commits of a pull request and will mark the pull requ
 
 - The file size is greater than the configured file size limit threshold.
 - The file is tracked in LFS but is being checked-in as a regular file
-  - the current implementation of this check is that the file has git attribute `filter: lfs` but does not contain the string `version https://git-lfs.github.com/spec/v1'`
+  - the current implementation of this check is that the file has git attribute `filter: lfs` but does not contain the string `version https://git-lfs.github.com/spec/v1`
 
 ![pr-with-lfs-detected](https://user-images.githubusercontent.com/5770369/77542326-4cc7a400-6ea6-11ea-9d16-aa99be9b3240.png)
 
