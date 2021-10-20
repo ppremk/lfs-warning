@@ -89,7 +89,7 @@ async function run() {
 
       core.setOutput('lfsFiles', lsfFiles);
       core.setFailed(
-        'Large File detected! Setting PR status to failed. Consider using git-lfs to track the LFS files'
+        'Large file(s) detected! Setting PR status to failed. Consider using git-lfs to track the LFS file(s)'
       );
     } else {
       core.info('No large file(s) detected...');
