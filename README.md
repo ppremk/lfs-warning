@@ -48,7 +48,7 @@ Returns an array of possible detected large file(s)
 Consume the action by referencing the stable release
 
 ```yaml
-uses: actionsdesk/lfs-warning@v2.0
+uses: actionsdesk/lfs-warning@v3.0
 with:
   token: ${{ secrets.GITHUB_TOKEN }} # Optional
   with:
