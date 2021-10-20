@@ -1,12 +1,18 @@
 {
-  "name": "LFS-warning",
-  "version": "1.0.0",
+  "name": "lfs-warning",
+  "version": "3.0.0",
   "description": "LFS Warning GitHub Action",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "lint": "eslint index.js",
-    "package": "ncc build index.js -o dist",
-    "test": "eslint index.js && jest"
+    "lint": "gts lint",
+    "package": "ncc build src/index.ts",
+    "test": "eslint index.js && jest",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "prepare": "npm run compile",
+    "pretest": "npm run compile",
+    "posttest": "npm run lint"
   },
   "repository": {
     "type": "git",
@@ -24,12 +30,17 @@
   },
   "homepage": "https://github.com/ppremk/lfs-warning#readme",
   "dependencies": {
-    "@actions/core": "^1.2.6",
-    "@actions/github": "^2.1.1"
+    "@actions/core": "^1.5.0",
+    "@actions/github": "^5.0.0",
+    "micromatch": "^4.0.4"
   },
   "devDependencies": {
-    "@zeit/ncc": "^0.20.5",
-    "eslint": "^6.3.0",
-    "jest": "^24.9.0"
+    "@types/micromatch": "^4.0.2",
+    "@types/node": "^16.9.6",
+    "@vercel/ncc": "^0.31.1",
+    "eslint": "^7.32.0",
+    "gts": "^3.1.0",
+    "jest": "^27.2.1",
+    "typescript": "^4.4.3"
   }
 }
