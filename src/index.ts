@@ -70,7 +70,11 @@ async function run() {
       core.info('Detected file(s) that should be in LFS: ');
       core.info(lsfFiles.join('\n'));
 
-      const body = getCommentBody(largeFiles, accidentallyCheckedInLsfFiles);
+      const body = getCommentBody(
+        largeFiles,
+        accidentallyCheckedInLsfFiles,
+        fsl
+      );
 
       await Promise.all([
         octokit.rest.issues.addLabels({
@@ -85,7 +89,7 @@ async function run() {
 
       core.setOutput('lfsFiles', lsfFiles);
       core.setFailed(
-        'Large File detected! Setting PR status to failed. Consider using git-lfs to track the LFS files'
+        'Large file(s) detected! Setting PR status to failed. Consider using git-lfs to track the LFS file(s)'
       );
     } else {
       core.info('No large file(s) detected...');
@@ -191,9 +195,10 @@ async function getPrFilesWithBlobSize(pullRequestNumber: number) {
 
 function getCommentBody(
   largeFiles: string[],
-  accidentallyCheckedInLsfFiles: string[]
+  accidentallyCheckedInLsfFiles: string[],
+  fsl: string | number
 ) {
-  const largeFilesBody = `The following file(s) exceeds the file size limit: ${100} bytes, as set in the .yml configuration files:
+  const largeFilesBody = `The following file(s) exceeds the file size limit: ${fsl} bytes, as set in the .yml configuration files:
 
         ${largeFiles.join(', ')}
 
