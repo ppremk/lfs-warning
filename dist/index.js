@@ -10436,8 +10436,8 @@ async function run() {
     core.info(`Default configured filesizelimit is set to ${fsl} bytes...`);
     core.info(`Name of Repository is ${repo.repo} and the owner is ${repo.owner}`);
     core.info(`Triggered event is ${event_type}`);
-    const labelName = getLabelName();
-    const labelColor = getLabelColor();
+    const labelName = core.getInput('labelName');
+    const labelColor = core.getInput('labelColor');
     await getOrCreateLfsWarningLabel(labelName, labelColor);
     if (event_type === 'pull_request') {
         const pullRequestNumber = (_a = context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number;
@@ -10522,24 +10522,6 @@ function getFileSizeLimitBytes() {
     }
     else {
         return fsl;
-    }
-}
-function getLabelName() {
-    const labelName = core.getInput('labelName');
-    if (labelName === '') {
-        return 'lfs-detected!';
-    }
-    else {
-        return labelName;
-    }
-}
-function getLabelColor() {
-    const labelColor = core.getInput('labelColor');
-    if (labelColor === '') {
-        return 'ff1493';
-    }
-    else {
-        return labelColor;
     }
 }
 async function getOrCreateLfsWarningLabel(labelName, labelColor) {

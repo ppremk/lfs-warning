@@ -19,8 +19,8 @@ async function run() {
   );
   core.info(`Triggered event is ${event_type}`);
 
-  const labelName = getLabelName();
-  const labelColor = getLabelColor();
+  const labelName = core.getInput('labelName');
+  const labelColor = core.getInput('labelColor');
 
   await getOrCreateLfsWarningLabel(labelName, labelColor);
 
@@ -124,24 +124,6 @@ function getFileSizeLimitBytes() {
     return fsl.slice(0, -1);
   } else {
     return fsl;
-  }
-}
-
-function getLabelName() {
-  const labelName = core.getInput('labelName');
-  if (labelName === '') {
-    return 'lfs-detected!';
-  } else {
-    return labelName;
-  }
-}
-
-function getLabelColor() {
-  const labelColor = core.getInput('labelColor');
-  if (labelColor === '') {
-    return 'ff1493';
-  } else {
-    return labelColor;
   }
 }
 
