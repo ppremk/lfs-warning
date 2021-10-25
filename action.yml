@@ -12,6 +12,14 @@ inputs:
   exclusionPatterns:
     required: false
     description: A newline delimited list of glob patterns that match checked in files to exclude form LFS Warning
+  labelName:
+    required: false
+    default: lfs-detected!
+    description: The name of the label, defaults to lfs-detected!
+  labelColor:
+    required: false
+    default: ff1493
+    description: The color of the label, defaults to ff1493
 outputs:
   lfsFiles: # output will be available to future steps
     description: "Array of possible detected large file(s)"

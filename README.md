@@ -37,6 +37,14 @@ Optional. Takes a valid **GitHub Token** from the Repo by default.
 
 Optional. A newline delimited list of glob patterns that match checked in files to exclude form LFS Warning.
 
+### `labelName`
+
+Optional. The name of the label, defaults to lfs-detected!
+
+### `labelColor`
+
+Optional. The color of the label, defaults to ff1493.
+
 ## Outputs
 
 ### `lfsFiles`
@@ -62,3 +70,4 @@ with:
 - [@froi](https://github.com/froi)
 - [@decyjphr](https://github.com/decyjphr)
 - [@naseemkullah](https://github.com/naseemkullah)
+- [@TomerFi](https://github.com/TomerFi)

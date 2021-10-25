@@ -10436,8 +10436,9 @@ async function run() {
     core.info(`Default configured filesizelimit is set to ${fsl} bytes...`);
     core.info(`Name of Repository is ${repo.repo} and the owner is ${repo.owner}`);
     core.info(`Triggered event is ${event_type}`);
-    const labelName = 'lfs-detected!';
-    await getOrCreateLfsWarningLabel(labelName);
+    const labelName = core.getInput('labelName');
+    const labelColor = core.getInput('labelColor');
+    await getOrCreateLfsWarningLabel(labelName, labelColor);
     if (event_type === 'pull_request') {
         const pullRequestNumber = (_a = context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number;
         if (pullRequestNumber === undefined) {
@@ -10523,7 +10524,7 @@ function getFileSizeLimitBytes() {
         return fsl;
     }
 }
-async function getOrCreateLfsWarningLabel(labelName) {
+async function getOrCreateLfsWarningLabel(labelName, labelColor) {
     try {
         await octokit.rest.issues.getLabel({
             ...repo,
@@ -10535,8 +10536,8 @@ async function getOrCreateLfsWarningLabel(labelName) {
             if (error.message === 'Not Found') {
                 await octokit.rest.issues.createLabel({
                     ...repo,
-                    name: 'lfs-detected!',
-                    color: 'ff1493',
+                    name: labelName,
+                    color: labelColor,
                     description: 'Warning Label for use when LFS is detected in the commits of a Pull Request',
                 });
                 core.info('No lfs warning label detected. Creating new label ...');
