@@ -7,7 +7,7 @@ inputs:
     default: ${{ github.token }}
   filesizelimit: # id of input
     description: "file size limit threshold"
-    required: true
+    required: false
     default: "10mb"
   exclusionPatterns:
     required: false

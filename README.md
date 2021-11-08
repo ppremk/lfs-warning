@@ -25,7 +25,7 @@ Note: Remember to configure the branch protection rule and select the `LFS-warni
 
 ### `filesizelimit`
 
-Required, set's the file size limit threshold. Accepts `b` (bytes), `mb` (megabytes) and `gb` (gigabytes) as units of measurement, if omitted interprets as bytes.
+Optional. set's the file size limit threshold. Accepts `b` (bytes), `mb` (megabytes) and `gb` (gigabytes) as units of measurement, if omitted interprets as bytes.
 
 Default `10mb`.
 
