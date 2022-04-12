@@ -10,6 +10,14 @@ const context = github.context;
 const {repo} = context;
 const event_type = context.eventName;
 
+const lfsFileContentStart = 'version https://git-lfs.github.com/spec/v1';
+const lfsFileContentStartInBase64 = Buffer.from(
+  // Every 3 characters, we get a fixed 4 char base64 string
+  // Shorting in the case that last character in base64 encoded string
+  // could vary depending on next file contents
+  lfsFileContentStart.slice(0, Math.floor(lfsFileContentStart.length / 3) * 3)
+).toString('base64');
+
 async function run() {
   const fsl = getFileSizeLimitBytes();
 
@@ -50,9 +58,20 @@ async function run() {
         ).stdout.includes('filter: lfs');
 
         if (shouldBeStoredInLFS) {
-          const isStoredInLFS = Boolean(
-            file.patch?.includes('version https://git-lfs.github.com/spec/v1')
-          );
+          let isStoredInLFS = false;
+          if (file.patch) {
+            isStoredInLFS = Boolean(
+              file.patch.includes('version https://git-lfs.github.com/spec/v1')
+            );
+          } else if (file.filecontents) {
+            // For PDF files, seems GitHub doesn't have the .patch property set
+            // in the API response. Reading file contents instead
+            // https://github.com/ActionsDesk/lfs-warning/issues/135
+            isStoredInLFS = file.filecontents.startsWith(
+              lfsFileContentStartInBase64
+            );
+          }
+
           if (!isStoredInLFS) {
             accidentallyCheckedInLsfFiles.push(filename);
           }
@@ -192,6 +211,7 @@ async function getPrFilesWithBlobSize(pullRequestNumber: number) {
         filename,
         filesha: sha,
         fileblobsize: blob.size,
+        filecontents: blob.content,
         patch,
       };
     })
