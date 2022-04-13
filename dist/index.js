@@ -12692,7 +12692,7 @@ async function run() {
                 if (shouldBeStoredInLFS) {
                     let isStoredInLFS = false;
                     if (file.patch) {
-                        isStoredInLFS = Boolean(file.patch.includes('version https://git-lfs.github.com/spec/v1'));
+                        isStoredInLFS = Boolean(file.patch.includes(lfsFileContentStart));
                     }
                     else if (file.filecontents) {
                         // For PDF files, seems GitHub doesn't have the .patch property set
