@@ -160,10 +160,12 @@ async function getOrCreateLfsWarningLabel(
 }
 
 async function getPrFilesWithBlobSize(pullRequestNumber: number) {
-  const {data} = await octokit.rest.pulls.listFiles({
+  const {data: dataWithRemoved} = await octokit.rest.pulls.listFiles({
     ...repo,
     pull_number: pullRequestNumber,
   });
+
+  const data = dataWithRemoved.filter(({status}) => status !== 'removed');
 
   const exclusionPatterns = core.getMultilineInput('exclusionPatterns');
 
