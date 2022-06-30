@@ -12656,8 +12656,14 @@ const octokit = github.getOctokit(core.getInput('token'));
 const context = github.context;
 const { repo } = context;
 const event_type = context.eventName;
+const lfsFileContentStart = 'version https://git-lfs.github.com/spec/v1';
+const lfsFileContentStartInBase64 = Buffer.from(
+// Every 3 characters, we get a fixed 4 char base64 string
+// Shorting in the case that last character in base64 encoded string
+// could vary depending on next file contents
+lfsFileContentStart.slice(0, Math.floor(lfsFileContentStart.length / 3) * 3)).toString('base64');
 async function run() {
-    var _a, _b;
+    var _a;
     const fsl = getFileSizeLimitBytes();
     core.info(`Default configured filesizelimit is set to ${fsl} bytes...`);
     core.info(`Name of Repository is ${repo.repo} and the owner is ${repo.owner}`);
@@ -12684,7 +12690,16 @@ async function run() {
                 // look for files below threshold that should be stored in LFS but are not
                 const shouldBeStoredInLFS = (await execFileP('git', ['check-attr', 'filter', filename])).stdout.includes('filter: lfs');
                 if (shouldBeStoredInLFS) {
-                    const isStoredInLFS = Boolean((_b = file.patch) === null || _b === void 0 ? void 0 : _b.includes('version https://git-lfs.github.com/spec/v1'));
+                    let isStoredInLFS = false;
+                    if (file.patch) {
+                        isStoredInLFS = Boolean(file.patch.includes(lfsFileContentStart));
+                    }
+                    else if (file.filecontents) {
+                        // For PDF files, seems GitHub doesn't have the .patch property set
+                        // in the API response. Reading file contents instead
+                        // https://github.com/ActionsDesk/lfs-warning/issues/135
+                        isStoredInLFS = file.filecontents.startsWith(lfsFileContentStartInBase64);
+                    }
                     if (!isStoredInLFS) {
                         accidentallyCheckedInLsfFiles.push(filename);
                     }
@@ -12801,6 +12816,7 @@ async function getPrFilesWithBlobSize(pullRequestNumber) {
             filename,
             filesha: sha,
             fileblobsize: blob.size,
+            filecontents: blob.content,
             patch,
         };
     }));
