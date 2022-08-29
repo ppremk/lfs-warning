@@ -70,3 +70,8 @@ with:
 - [@decyjphr](https://github.com/decyjphr)
 - [@naseemkullah](https://github.com/naseemkullah)
 - [@TomerFi](https://github.com/TomerFi)
+- [@davidlj95](https://github.com/davidlj95) 
+- [@SkyTrix](https://github.com/SkyTrix)
+- [@srz-zumix](https://github.com/srz-zumix)
+- [@zzgab](https://github.com/zzgab)
+
