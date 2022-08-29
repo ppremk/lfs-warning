@@ -59,10 +59,9 @@ Consume the action by referencing the stable release
 uses: actionsdesk/lfs-warning@v3.1
 with:
   token: ${{ secrets.GITHUB_TOKEN }} # Optional
-  with:
-    filesizelimit: 10MB
-    exclusionPatterns: |
-      **/*.png
+  filesizelimit: 10MB
+  exclusionPatterns: |
+    **/*.png
 ```
 
 ## Contributers
