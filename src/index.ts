@@ -198,21 +198,24 @@ async function getPrFilesWithBlobSize(pullRequestNumber: number) {
       : data;
 
   const prFilesWithBlobSize = await Promise.all(
-    files.map(async file => {
-      const {filename, sha, patch} = file;
-      const {data: blob} = await octokit.rest.git.getBlob({
-        ...repo,
-        file_sha: sha,
-      });
+    files
+      // Cannot get blobs for files without sha (e.g. happens when only changing a permission bit on the file)
+      .filter(file => file.sha != null)
+      .map(async file => {
+        const {filename, sha, patch} = file;
+        const {data: blob} = await octokit.rest.git.getBlob({
+          ...repo,
+          file_sha: sha,
+        });
 
-      return {
-        filename,
-        filesha: sha,
-        fileblobsize: blob.size,
-        filecontents: blob.content,
-        patch,
-      };
-    })
+        return {
+          filename,
+          filesha: sha,
+          fileblobsize: blob.size,
+          filecontents: blob.content,
+          patch,
+        };
+      })
   );
   return prFilesWithBlobSize;
 }
