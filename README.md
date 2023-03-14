@@ -3,9 +3,9 @@
 This action works to prevent both:
 
 - Large files that are not LFS tracked
-- Files that are LFS tracked
+- Files that are LFS tracked from being checked-in in non-pointer format/not stored in LFS
 
-from being checked-in in non-pointer format/not stored in LFS. The latter happens if the client does not have git-lfs installed.
+The latter happens if the client does not have git-lfs installed.
 
 ## How it works
 
