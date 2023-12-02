@@ -237,7 +237,7 @@ function getCommentBody(
         ${accidentallyCheckedInLsfFiles.join(', ')}
       `;
 
-  const body = `## :warning: Possible file(s) that should be tracked in LFS detected :warning:
+  const body = `:rotating_light: Possible file(s) that should be tracked in LFS detected: :rotating_light:
         ${largeFiles.length > 0 ? largeFilesBody : ''}
         ${
           accidentallyCheckedInLsfFiles.length > 0
