@@ -1,20 +1,31 @@
-name: 'LFS-warning'
-description: 'Checks file sizes in a Pull Request and warns of large files'
+name: "LFS-warning"
+description: "Checks file sizes in a Pull Request and warns of large files"
 inputs:
   token:
     required: false
     description: Token used to fetch the repository
     default: ${{ github.token }}
-  filesizelimit:  # id of input 
-    description: 'file size limit threshold'
-    required: true
-    default: '10485760' # 10 MB is 10485760 Bytes 
+  filesizelimit: # id of input
+    description: "file size limit threshold"
+    required: false
+    default: "10mb"
+  exclusionPatterns:
+    required: false
+    description: A newline delimited list of glob patterns that match checked in files to exclude form LFS Warning
+  labelName:
+    required: false
+    default: lfs-detected!
+    description: The name of the label, defaults to lfs-detected!
+  labelColor:
+    required: false
+    default: ff1493
+    description: The color of the label, defaults to ff1493
 outputs:
-  lfsFiles: # output will be available to future steps 
-    description: 'Array of possible detected large file(s)'
+  lfsFiles: # output will be available to future steps
+    description: "Array of possible detected large file(s)"
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: "node16"
+  main: "dist/index.js"
 branding:
-  icon: 'alert-triangle' # icon referenced from https://feathericons.com/
-  color: 'yellow'
+  icon: "alert-triangle" # icon referenced from https://feathericons.com/
+  color: "yellow"
