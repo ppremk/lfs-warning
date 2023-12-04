@@ -37,7 +37,7 @@
   "devDependencies": {
     "@types/micromatch": "^4.0.2",
     "@types/node": "^16.9.6",
-    "@vercel/ncc": "^0.31.1",
+    "@vercel/ncc": "^0.38.1",
     "eslint": "^7.32.0",
     "gts": "^3.1.1",
     "jest": "^27.2.1",
