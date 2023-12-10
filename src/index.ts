@@ -225,19 +225,29 @@ function getCommentBody(
   accidentallyCheckedInLsfFiles: string[],
   fsl: string | number
 ) {
-  const largeFilesBody = `The following file(s) exceeds the file size limit: ${fsl} bytes, as set in the .yml configuration files:
+  const largeFilesList = largeFiles
+    .join(', ')
+    .split(', ')
+    .map(file => `- ${file}`)
+    .join('\n');
+  const largeFilesBody = `The following file(s) exceeds the file size limit: \`${fsl}\` bytes, as set in the .yml configuration files:
 
-        ${largeFiles.join(', ')}
+        ${largeFilesList}
 
-        Consider using git-lfs to manage large files.
+        Consider using \`git-lfs\` to manage large files.
       `;
 
+  const accidentalFilesList = accidentallyCheckedInLsfFiles
+    .join(', ')
+    .split(', ')
+    .map(file => `- ${file}`)
+    .join('\n');
   const accidentallyCheckedInLsfFilesBody = `The following file(s) are tracked in LFS and were likely accidentally checked in:
 
-        ${accidentallyCheckedInLsfFiles.join(', ')}
+        ${accidentalFilesList}
       `;
 
-  const body = `## :warning: Possible file(s) that should be tracked in LFS detected :warning:
+  const body = `:rotating_light: Possible file(s) that should be tracked in LFS detected: :rotating_light:
         ${largeFiles.length > 0 ? largeFilesBody : ''}
         ${
           accidentallyCheckedInLsfFiles.length > 0
