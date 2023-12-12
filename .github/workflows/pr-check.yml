@@ -20,8 +20,8 @@ jobs:
           
       - name: Compile with NPM
         run: |
-          npm build
-          npm package
+          npm run compile
+          npm run package
 
       - name: Check if there are changes that where not in the commit
         run: |
