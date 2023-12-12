@@ -26,7 +26,7 @@ jobs:
 
       - name: Check if there are changes that where not in the commit
         run: |
-          if [ -z "$(git status --porcelain)" ]; then 
+          if [ -n "$(git status --porcelain)" ]; then 
             echo "Found changes to commit after building. Here is the output from `git status`:"
             git status
 
