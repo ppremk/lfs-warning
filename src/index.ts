@@ -230,29 +230,34 @@ function getCommentBody(
     .split(', ')
     .map(file => `- ${file}`)
     .join('\n');
+  // note: indentation is important here, as it is used to determine the code block
   const largeFilesBody = `The following file(s) exceeds the file size limit: \`${fsl}\` bytes, as set in the .yml configuration files:
 
-        ${largeFilesList}
+${largeFilesList}
 
-        Consider using \`git-lfs\` to manage large files.
-      `;
+Consider using \`git-lfs\` to manage large files.
+`;
 
   const accidentalFilesList = accidentallyCheckedInLsfFiles
     .join(', ')
     .split(', ')
     .map(file => `- ${file}`)
     .join('\n');
+
+  // note: indentation is important here, as it is used to determine the code block
   const accidentallyCheckedInLsfFilesBody = `The following file(s) are tracked in LFS and were likely accidentally checked in:
 
-        ${accidentalFilesList}
-      `;
+  ${accidentalFilesList}
+`;
 
-  const body = `:rotating_light: Possible file(s) that should be tracked in LFS detected: :rotating_light:
-        ${largeFiles.length > 0 ? largeFilesBody : ''}
-        ${
-          accidentallyCheckedInLsfFiles.length > 0
-            ? accidentallyCheckedInLsfFilesBody
-            : ''
-        }`;
+  // note: indentation is important here, as it is used to determine the code block
+  const body = `## Possible file(s) that should be tracked in LFS detected: :rotating_light:
+
+${largeFiles.length > 0 ? largeFilesBody : ''}
+${
+  accidentallyCheckedInLsfFiles.length > 0
+    ? accidentallyCheckedInLsfFilesBody
+    : ''
+}`;
   return body;
 }
