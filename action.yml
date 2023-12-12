@@ -24,7 +24,7 @@ outputs:
   lfsFiles: # output will be available to future steps
     description: "Array of possible detected large file(s)"
 runs:
-  using: "node16"
+  using: "node20"
   main: "dist/index.js"
 branding:
   icon: "alert-triangle" # icon referenced from https://feathericons.com/
