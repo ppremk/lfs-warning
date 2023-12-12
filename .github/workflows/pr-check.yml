@@ -31,4 +31,6 @@ jobs:
             git status
 
             exit 1
+          else 
+            echo "No changes found after compiling. PR is good for a review."
           fi
