@@ -15,7 +15,11 @@ jobs:
     steps:
       - name: Get Repo Code
         id: get_repo_code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20'
 
       - name: LFS Warning
         id: lfs_warning
