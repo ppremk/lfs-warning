@@ -35107,7 +35107,7 @@ Consider using \`git-lfs\` to manage large files.
   ${accidentalFilesList}
 `;
     // note: indentation is important here, as it is used to determine the code block
-    const body = `## Possible file(s) that should be tracked in LFS detected: :rotating_light:
+    const body = `## Possible file(s) that should be tracked in LFS detected: 🚨 
 
 ${largeFiles.length > 0 ? largeFilesBody : ''}
 ${accidentallyCheckedInLsfFiles.length > 0
