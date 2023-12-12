@@ -14565,7 +14565,7 @@ async function run() {
     const labelName = core.getInput('labelName');
     const labelColor = core.getInput('labelColor');
     await getOrCreateLfsWarningLabel(labelName, labelColor);
-    if (event_type === 'pull_request') {
+    if (event_type === 'pull_request' || event_type === 'pull_request_target') {
         const pullRequestNumber = (_a = context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number;
         if (pullRequestNumber === undefined) {
             throw new Error('Could not get PR number');
