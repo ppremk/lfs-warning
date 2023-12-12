@@ -32,7 +32,7 @@ async function run() {
 
   await getOrCreateLfsWarningLabel(labelName, labelColor);
 
-  if (event_type === 'pull_request') {
+  if (event_type === 'pull_request' || event_type === 'pull_request_target') {
     const pullRequestNumber = context.payload.pull_request?.number;
 
     if (pullRequestNumber === undefined) {
