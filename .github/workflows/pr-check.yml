@@ -1,0 +1,33 @@
+# check incoming pr's and make sure that
+# - the code builds
+# - the dist folder does not need updating
+name: PR Check
+
+on:
+  push:
+
+  pull_request:
+
+jobs:
+  build-and-check-dist:
+    name: Run build and check dist folder
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v4.0.0
+        with:
+          node-version: '20'
+          
+      - name: Compile with NPM
+        run: |
+          npm build
+          npm package
+
+      - name: Check if there are changes that where not in the commit
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then 
+            echo "Found changes to commit after building. Here is the output from `git status`:"
+            git status
+
+            exit 1
+          fi
