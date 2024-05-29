@@ -88,10 +88,9 @@ async function run() {
       core.info('Detected file(s) that should be in LFS: ');
       core.info(lsfFiles.join('\n'));
 
-      const body = getCommentBody(
-        largeFiles,
-        accidentallyCheckedInLsfFiles,
-        fsl
+      core.setOutput('lfsFiles', lsfFiles);
+      core.setFailed(
+        'Large file(s) detected! Setting PR status to failed. Consider using git-lfs to track the LFS file(s)'
       );
 
       await Promise.all([
@@ -99,16 +98,25 @@ async function run() {
           ...issueBaseProps,
           labels: [labelName],
         }),
-        octokit.rest.issues.createComment({
-          ...issueBaseProps,
-          body,
-        }),
       ]);
+      
+      const send_comment = core.getInput('sendComment');
+      if (send_comment === "" || send_comment === "true") {
+        const body = getCommentBody(
+          largeFiles,
+          accidentallyCheckedInLsfFiles,
+          fsl
+        );
 
-      core.setOutput('lfsFiles', lsfFiles);
-      core.setFailed(
-        'Large file(s) detected! Setting PR status to failed. Consider using git-lfs to track the LFS file(s)'
-      );
+        await Promise.all([
+          octokit.rest.issues.createComment({
+            ...issueBaseProps,
+            body,
+          }),
+        ]);
+      } else if (send_comment !== "false") {
+        throw new Error("sendComment must be either true or false");
+      }
     } else {
       core.info('No large file(s) detected...');
 

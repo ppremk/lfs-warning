@@ -45,6 +45,12 @@ Optional. The name of the label, defaults to lfs-detected!
 
 Optional. The color of the label, defaults to ff1493.
 
+### `sendComment`
+
+Optional. If set to false, disables sending comments.
+
+Default `true`.
+
 ## Outputs
 
 ### `lfsFiles`

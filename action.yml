@@ -20,6 +20,10 @@ inputs:
     required: false
     default: ff1493
     description: The color of the label, defaults to ff1493
+  sendComment:
+    required: false
+    default: true
+    description: Disable sending comments
 outputs:
   lfsFiles: # output will be available to future steps
     description: "Array of possible detected large file(s)"
